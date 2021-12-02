@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Android Animations With React Native (Part 1)! | Fitted Learner</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Android Animations With React Native (Part 1)!" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Android Incoming Call Animation." />
+<meta property="og:description" content="Android Incoming Call Animation." />
+<link rel="canonical" href="https://balogunofafrica.github.io/fittedlearner/react%20native/reanimated/material%20you/android/2021/12/02/android-incoming-call-animation.html" />
+<meta property="og:url" content="https://balogunofafrica.github.io/fittedlearner/react%20native/reanimated/material%20you/android/2021/12/02/android-incoming-call-animation.html" />
+<meta property="og:site_name" content="Fitted Learner" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-12-02T00:00:00-06:00" />
+<script type="application/ld+json">
+{"url":"https://balogunofafrica.github.io/fittedlearner/react%20native/reanimated/material%20you/android/2021/12/02/android-incoming-call-animation.html","@type":"BlogPosting","headline":"Android Animations With React Native (Part 1)!","dateModified":"2021-12-02T00:00:00-06:00","datePublished":"2021-12-02T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://balogunofafrica.github.io/fittedlearner/react%20native/reanimated/material%20you/android/2021/12/02/android-incoming-call-animation.html"},"description":"Android Incoming Call Animation.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/fittedlearner/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://balogunofafrica.github.io/fittedlearner/feed.xml" title="Fitted Learner" /><link rel="shortcut icon" type="image/x-icon" href="/fittedlearner/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/fittedlearner/">Fitted Learner</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/fittedlearner/about/">About Me</a><a class="page-link" href="/fittedlearner/search/">Search</a><a class="page-link" href="/fittedlearner/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Android Animations With React Native (Part 1)!</h1><p class="page-description">Android Incoming Call Animation.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-12-02T00:00:00-06:00" itemprop="datePublished">
+        Dec 2, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      17 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/fittedlearner/categories/#React Native">React Native</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/fittedlearner/categories/#Reanimated">Reanimated</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/fittedlearner/categories/#Material You">Material You</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/fittedlearner/categories/#Android">Android</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/BalogunofAfrica/fittedlearner/tree/master/_notebooks/2021-12-02-android-incoming-call-animation.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/fittedlearner/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/BalogunofAfrica/fittedlearner/master?filepath=_notebooks%2F2021-12-02-android-incoming-call-animation.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/fittedlearner/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/BalogunofAfrica/fittedlearner/blob/master/_notebooks/2021-12-02-android-incoming-call-animation.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/fittedlearner/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Overview">Overview </a></li>
+<li class="toc-entry toc-h1"><a href="#Setting-up-the-project">Setting up the project </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Bootstrapping-with-Expo">Bootstrapping with Expo </a></li>
+<li class="toc-entry toc-h2"><a href="#Installing-the-dependencies">Installing the dependencies </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Building-the-project">Building the project </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Mount-Animation">Mount Animation </a></li>
+<li class="toc-entry toc-h2"><a href="#Putting-together-the-loop-animation">Putting together the loop animation </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Handling-Swipes">Handling Swipes </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Handling-Swipe-Events">Handling Swipe Events </a></li>
+<li class="toc-entry toc-h2"><a href="#Handling-Loop-Animation-On-Swipe">Handling Loop Animation On Swipe </a></li>
+<li class="toc-entry toc-h2"><a href="#Handling-Opacity-of-Texts-when-Swiping">Handling Opacity of Texts when Swiping </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Building-Our-Icon-Animation">Building Our Icon Animation </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#Animating-Our-SVG-Icon">Animating Our SVG Icon </a></li>
+<li class="toc-entry toc-h2"><a href="#Heading-Animation">Heading Animation </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Bonus">Bonus </a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#Refactor,-Refactor,-Refactor...">Refactor, Refactor, Refactor... </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-12-02-android-incoming-call-animation.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Overview">
+<a class="anchor" href="#Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview<a class="anchor-link" href="#Overview"> </a>
+</h1>
+<p>This lecture would be a series of we trying to reproduce some Android system applications animations using <a href="https://reactnative.dev/" title="React Native">React Native</a>, the source code for upcoming lectures can be found <a href="https://github.com/BalogunofAfrica/rn-material-you-animations" title="Source Code">here</a> ahead of time.</p>
+<p>I would also be updating this section in the future as other parts of the series are made available.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Setting-up-the-project">
+<a class="anchor" href="#Setting-up-the-project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting up the project<a class="anchor-link" href="#Setting-up-the-project"> </a>
+</h1>
+<p>We would be using <a href="https://docs.expo.dev/" title="expo">expo</a> to boostrap our project</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Bootstrapping-with-Expo">
+<a class="anchor" href="#Bootstrapping-with-Expo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bootstrapping with Expo<a class="anchor-link" href="#Bootstrapping-with-Expo"> </a>
+</h2>
+<p>You can read the <a href="https://docs.expo.dev/get-started/installation/">docs</a> on how to install and set up expo.</p>
+<p>Now, let's create the project using expo, run the following command in the terminal:</p>
+<div class="highlight"><pre><span></span>expo init react-native-animations
+</pre></div>
+<p>Then select managed typescript configuration, wait for it to set up the project.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Installing-the-dependencies">
+<a class="anchor" href="#Installing-the-dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installing the dependencies<a class="anchor-link" href="#Installing-the-dependencies"> </a>
+</h2>
+<p>We would be needing <a href="https://docs.swmansion.com/react-native-reanimated/docs/" title="Reanimated">React Native Reanimated</a>, <a href="https://docs.swmansion.com/react-native-reanimated/docs/" title="Gesture Handler">React Native Gesture Handler</a> and <a href="https://github.com/react-native-svg/react-native-svg" title="React Native SVG">React Native SVG</a> to build the animations, handle gestures and draw paths respectively. We can install them using the following command:</p>
+<p><strong><code>With npm:</code></strong></p>
+<div class="highlight"><pre><span></span>npm install --save react-native-reanimated react-native-gesture-handler react-native-svg
+</pre></div>
+<p><strong><code>With yarn:</code></strong></p>
+<div class="highlight"><pre><span></span>yarn add react-native-reanimated react-native-gesture-handler react-native-svg
+</pre></div>
+<p>Finally for the setup, we would have to add Reanimated plugin to the <code>babelconfig.js file</code> like so:</p>
+<div class="highlight"><pre><span></span><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="p">...</span>
+      <span class="nx">plugins</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s2">"react-native-reanimated/plugin"</span><span class="p">,</span>
+      <span class="p">],</span>
+      <span class="p">...</span>
+    <span class="p">};</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Building-the-project">
+<a class="anchor" href="#Building-the-project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building the project<a class="anchor-link" href="#Building-the-project"> </a>
+</h1>
+<p>Let us create a file called <code>IncomingCall.tsx</code> and add the following code to build the view:</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">StyleSheet</span><span class="p">,</span> <span class="nx">Text</span><span class="p">,</span> <span class="nx">View</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">useSafeAreaInsets</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native-safe-area-context"</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+  <span class="kr">const</span> <span class="nx">edges</span> <span class="o">=</span> <span class="nx">useSafeAreaInsets</span><span class="p">();</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">,</span> <span class="p">{</span> <span class="nx">paddingTop</span>: <span class="kt">edges.top</span> <span class="p">}]}</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">View</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">callingText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Call</span> <span class="nx">from</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">titleText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Tech</span> <span class="nx">Support</span> <span class="nx">NG</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">callingText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Mobile</span> <span class="o">+</span><span class="mi">234</span> <span class="mi">00</span> <span class="mi">000</span> <span class="mi">000</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+      <span class="o">&lt;</span><span class="err">/View&gt;</span>
+      <span class="o">&lt;</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">actionsContainer</span><span class="p">}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">acceptText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Swipe</span> <span class="nx">up</span> <span class="nx">to</span> <span class="nx">answer</span><span class="p">...</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">iconContainer</span><span class="p">}</span><span class="o">&gt;</span><span class="err">📞</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">declineText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Swipe</span> <span class="nx">down</span> <span class="nx">to</span> <span class="nx">decline</span><span class="p">...</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+      <span class="o">&lt;</span><span class="err">/View&gt;</span>
+    <span class="o">&lt;</span><span class="err">/View&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">const</span> <span class="nx">styles</span> <span class="o">=</span> <span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+  <span class="nx">acceptText</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">color</span><span class="o">:</span> <span class="s2">"#7B7C81"</span><span class="p">,</span>
+    <span class="nx">fontStyle</span><span class="o">:</span> <span class="s2">"italic"</span><span class="p">,</span>
+    <span class="nx">marginBottom</span>: <span class="kt">12</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nx">actionsContainer</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">alignItems</span><span class="o">:</span> <span class="s2">"center"</span><span class="p">,</span>
+    <span class="nx">paddingBottom</span>: <span class="kt">40</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nx">callingText</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">color</span><span class="o">:</span> <span class="s2">"#fff"</span><span class="p">,</span>
+    <span class="nx">fontSize</span>: <span class="kt">20</span><span class="p">,</span>
+    <span class="nx">marginBottom</span>: <span class="kt">8</span><span class="p">,</span>
+    <span class="nx">textAlign</span><span class="o">:</span> <span class="s2">"center"</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nx">container</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">alignItems</span><span class="o">:</span> <span class="s2">"center"</span><span class="p">,</span>
+    <span class="nx">backgroundColor</span><span class="o">:</span> <span class="s2">"#222328"</span><span class="p">,</span>
+    <span class="nx">flex</span>: <span class="kt">1</span><span class="p">,</span>
+    <span class="nx">justifyContent</span><span class="o">:</span> <span class="s2">"space-between"</span><span class="p">,</span>
+    <span class="nx">padding</span>: <span class="kt">8</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nx">declineText</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">color</span><span class="o">:</span> <span class="s2">"#7B7C81"</span><span class="p">,</span>
+    <span class="nx">fontStyle</span><span class="o">:</span> <span class="s2">"italic"</span><span class="p">,</span>
+    <span class="nx">marginTop</span>: <span class="kt">12</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="nx">iconContainer</span><span class="o">:</span> <span class="p">{</span> 
+    <span class="nx">color</span><span class="o">:</span> <span class="s2">"#000"</span> 
+  <span class="p">},</span>
+  <span class="nx">titleText</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">color</span><span class="o">:</span> <span class="s2">"#fff"</span><span class="p">,</span>
+    <span class="nx">fontSize</span>: <span class="kt">36</span><span class="p">,</span>
+    <span class="nx">fontWeight</span><span class="o">:</span> <span class="s2">"800"</span><span class="p">,</span>
+    <span class="nx">marginBottom</span>: <span class="kt">8</span><span class="p">,</span>
+    <span class="nx">textAlign</span><span class="o">:</span> <span class="s2">"center"</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">});</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">IncomingCall</span><span class="p">;</span>
+</pre></div>
+<p>We should get the following on our screen:</p>
+<p>Dont worry about the phone icon emoji, it is just a placeholder, we'd be building that later on.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Mount-Animation">
+<a class="anchor" href="#Mount-Animation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mount Animation<a class="anchor-link" href="#Mount-Animation"> </a>
+</h2>
+<p>Now that we have a skeleton of the view, let's start animating!</p>
+<p>From our reference, when the screen mounts the <code>Swipe up to answer...</code> text, <code>Swipe down to decline...</code> text and the <code>Icon</code> translate from the bottom of the screen on the <strong><code>y</code></strong> axis. Their opacity also fades in as they appear on the screen. We can use the parent view holding these elements to do this translation. We'd update the view to an animated one and define two shared values, one for translation and the other for opacity.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+
+<span class="kr">import</span> <span class="nx">Animated</span><span class="p">,</span> <span class="p">{</span> <span class="nx">useSharedValue</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native-reanimated"</span><span class="p">;</span>
+
+<span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+  <span class="p">...</span>
+  <span class="kr">const</span> <span class="nx">gestureOpacity</span> <span class="o">=</span> <span class="nx">useSharedValue</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="kr">const</span> <span class="nx">gestureTranslate</span> <span class="o">=</span> <span class="nx">useSharedValue</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+
+  <span class="p">...</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="p">...</span>
+
+     <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">actionsContainer</span><span class="p">}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">acceptText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Swipe</span> <span class="nx">up</span> <span class="nx">to</span> <span class="nx">answer</span><span class="p">...</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">iconContainer</span><span class="p">}</span><span class="o">&gt;</span><span class="err">📞</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">declineText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Swipe</span> <span class="nx">down</span> <span class="nx">to</span> <span class="nx">decline</span><span class="p">...</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+      <span class="o">&lt;</span><span class="err">/Animated.View&gt;</span>
+
+    <span class="p">...</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</pre></div>
+<p>We are initializing our translation shared value to <strong>100</strong>, because we want to start the animation from <strong>100</strong> pixels close the bottom of the screen to the original position according to it's layout which would be <strong>0</strong>. Also for the opacity we are moving from <strong>0</strong> to <strong>1</strong>.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+
+<span class="kr">import</span> <span class="nx">Animated</span><span class="p">,</span> <span class="p">{</span> <span class="nx">useAnimatedStyle</span><span class="p">,</span> <span class="nx">useSharedValue</span><span class="p">,</span> <span class="nx">withTiming</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native-reanimated"</span><span class="p">;</span>
+
+<span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+  <span class="p">...</span>
+  <span class="nx">React</span><span class="p">.</span><span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">gestureTranslate</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withTiming</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{</span> <span class="nx">duration</span>: <span class="kt">1000</span><span class="p">,</span> <span class="nx">easing</span>: <span class="kt">Easing.elastic</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">});</span>
+    <span class="nx">gestureOpacity</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withTiming</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span> <span class="nx">duration</span>: <span class="kt">1000</span> <span class="p">});</span>
+  <span class="p">},</span> <span class="p">[]);</span>
+  <span class="p">...</span>
+  <span class="kr">const</span> <span class="nx">gestureContainerStyle</span> <span class="o">=</span> <span class="nx">useAnimatedStyle</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+    <span class="nx">opacity</span>: <span class="kt">gestureOpacity.value</span><span class="p">,</span>
+    <span class="nx">transform</span><span class="o">:</span> <span class="p">[{</span> <span class="nx">translateY</span>: <span class="kt">gestureTranslate.value</span> <span class="p">}],</span>
+  <span class="p">}));</span>
+  <span class="p">...</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="p">...</span>
+
+     <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">actionsContainer</span><span class="p">,</span> <span class="nx">gestureContainerStyle</span><span class="p">]}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">acceptText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Swipe</span> <span class="nx">up</span> <span class="nx">to</span> <span class="nx">answer</span><span class="p">...</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">iconContainer</span><span class="p">}</span><span class="o">&gt;</span><span class="err">📞</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">declineText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Swipe</span> <span class="nx">down</span> <span class="nx">to</span> <span class="nx">decline</span><span class="p">...</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+      <span class="o">&lt;</span><span class="err">/Animated.View&gt;</span>
+
+    <span class="p">...</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</pre></div>
+<p>We also added easing to the animation to give us an elastic effect.</p>
+<p>This should result in the following:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Putting-together-the-loop-animation">
+<a class="anchor" href="#Putting-together-the-loop-animation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Putting together the loop animation<a class="anchor-link" href="#Putting-together-the-loop-animation"> </a>
+</h2>
+<p>Next, we notice from our reference that after the mount animation, we get a loop animation that translates the <code>Swipe up to answer...</code> and the <code>Icon</code> from their layout positions to some pixels up and then back to their original position. We also get the <code>Swipe down to decline...</code> text to fade in and out as this is going on.</p>
+<p>We can wrap our <code>Swipe up to answer...</code> text and <code>Icon</code> in an <code>Animated.View</code> which we would apply the styles to translate back and forth on and then we can interpolate from this to get the opacity of the text <code>Swipe down to decline...</code> to fade in and out.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+  <span class="p">...</span>
+  <span class="kr">const</span> <span class="nx">repeatTranslate</span> <span class="o">=</span> <span class="nx">useSharedValue</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="p">...</span>
+
+  <span class="kr">const</span> <span class="nx">doRepeat</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s2">"worklet"</span><span class="p">;</span>
+
+    <span class="nx">repeatTranslate</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withRepeat</span><span class="p">(</span>
+      <span class="nx">withTiming</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">duration</span>: <span class="kt">1500</span><span class="p">,</span>
+      <span class="p">}),</span>
+      <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+      <span class="kc">true</span><span class="p">,</span>
+    <span class="p">);</span>
+  <span class="p">};</span>
+  <span class="p">...</span>
+  <span class="kr">const</span> <span class="nx">declineOpacity</span> <span class="o">=</span> <span class="nx">useAnimatedStyle</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">opacity</span> <span class="o">=</span> <span class="nx">interpolate</span><span class="p">(</span>
+      <span class="nx">repeatTranslate</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+      <span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+      <span class="nx">Extrapolate</span><span class="p">.</span><span class="nx">CLAMP</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="k">return</span> <span class="p">{</span> <span class="nx">opacity</span> <span class="p">};</span>
+  <span class="p">});</span>
+  <span class="p">...</span>
+
+    <span class="nx">React</span><span class="p">.</span><span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">gestureTranslate</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withTiming</span><span class="p">(</span>
+      <span class="mi">0</span><span class="p">,</span>
+      <span class="p">{</span> <span class="nx">duration</span>: <span class="kt">1000</span><span class="p">,</span> <span class="nx">easing</span>: <span class="kt">Easing.elastic</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">},</span>
+      <span class="p">(</span><span class="nx">isFinished</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">isFinished</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">doRepeat</span><span class="p">();</span>
+        <span class="p">}</span>
+      <span class="p">},</span>
+    <span class="p">);</span>
+    <span class="nx">gestureOpacity</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withTiming</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">{</span> <span class="nx">duration</span>: <span class="kt">1000</span> <span class="p">});</span>
+  <span class="p">},</span> <span class="p">[]);</span>
+  <span class="p">...</span>
+  <span class="k">return</span> <span class="p">(</span>
+      <span class="p">...</span>
+      <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">actionsContainer</span><span class="p">,</span> <span class="nx">gestureContainerStyle</span><span class="p">]}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">repeatContainer</span><span class="p">,</span> <span class="nx">repeatTranslateStyle</span><span class="p">]}</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">acceptText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Swipe</span> <span class="nx">up</span> <span class="nx">to</span> <span class="nx">answer</span><span class="p">...</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+          <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p"></span><span class="o">&gt;</span><span class="err">📞</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+        <span class="o">&lt;</span><span class="err">/Animated.View&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">declineText</span><span class="p">,</span> <span class="nx">declineOpacity</span><span class="p">]}</span><span class="o">&gt;</span>
+          <span class="nx">Swipe</span> <span class="nx">down</span> <span class="nx">to</span> <span class="nx">decline</span><span class="p">...</span>
+        <span class="o">&lt;</span><span class="err">/Animated.Text&gt;</span>
+      <span class="o">&lt;</span><span class="err">/Animated.View&gt;</span>
+      <span class="p">...</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+<span class="p">...</span>
+<span class="kr">const</span> <span class="nx">styles</span> <span class="o">=</span> <span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+  <span class="p">...</span>
+    <span class="nx">repeatContainer</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">alignItems</span><span class="o">:</span> <span class="s2">"center"</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="p">...</span>
+<span class="p">})</span>
+</pre></div>
+<p>From the snippet above, we create a <code>doRepeat</code> function which is our own custom <a href="https://docs.swmansion.com/react-native-reanimated/docs/2.2.0/worklets/" title="worklet">worklet</a> that would be called when the mount animation is finished. Within this function we have a <code>withRepeat</code> function which takes other animation functions like <code>withTiming</code> and repeats it a number of times, we are passing <code>-1</code> as our number of repitition which means it should create an infinite loop, also we are passing <code>true</code> as our third argument which translates our shared value (repeatTranslate)  from <strong>0</strong> to <strong>-50</strong>, then back to <strong>0</strong>. Finally we interpolate on these values to get the opacity of the decline text to fade in and out. We add <code>Extrapolate.CLAMP</code> to the interpolation to make sure that the opacity never goes below <strong>0</strong> or above <strong>1</strong>.</p>
+<p>This should result to this on our screen:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Handling-Swipes">
+<a class="anchor" href="#Handling-Swipes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Handling Swipes<a class="anchor-link" href="#Handling-Swipes"> </a>
+</h1>
+<p>The next thing to do would be to handle the user swipe gestures to either accept the call or decline it. We would be using the <code>PanGestureHandler</code> component to handle this. We have to wrap the components we want to be swipeable with the <code>PanGestureHandler</code> component.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">PanGestureHandler</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native-gesture-handler"</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+  <span class="k">return</span> <span class="p">(</span>
+      <span class="p">...</span>
+        <span class="o">&lt;</span><span class="nx">PanGestureHandler</span> <span class="nx">activeOffsetY</span><span class="o">=</span><span class="p">{[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]}</span><span class="o">&gt;</span>
+          <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">repeatContainer</span><span class="p">,</span> <span class="nx">repeatTranslateStyle</span><span class="p">]}</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">acceptText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Swipe</span> <span class="nx">up</span> <span class="nx">to</span> <span class="nx">answer</span><span class="p">...</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p"></span><span class="o">&gt;</span><span class="err">📞</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+          <span class="o">&lt;</span><span class="err">/Animated.View&gt;</span>
+        <span class="o">&lt;</span><span class="err">/PanGestureHandler&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">declineText</span><span class="p">,</span> <span class="nx">declineOpacity</span><span class="p">]}</span><span class="o">&gt;</span>
+          <span class="nx">Swipe</span> <span class="nx">down</span> <span class="nx">to</span> <span class="nx">decline</span><span class="p">...</span>
+        <span class="o">&lt;</span><span class="err">/Animated.Text&gt;</span>
+      <span class="p">...</span>
+  <span class="p">)</span>
+</pre></div>
+<p></p>
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10.561 1.5a.016.016 0 00-.01.004L3.286 8.571A.25.25 0 003.462 9H6.75a.75.75 0 01.694 1.034l-1.713 4.188 6.982-6.793A.25.25 0 0012.538 7H9.25a.75.75 0 01-.683-1.06l2.008-4.418.003-.006a.02.02 0 00-.004-.009.02.02 0 00-.006-.006L10.56 1.5zM9.504.43a1.516 1.516 0 012.437 1.713L10.415 5.5h2.123c1.57 0 2.346 1.909 1.22 3.004l-7.34 7.142a1.25 1.25 0 01-.871.354h-.302a1.25 1.25 0 01-1.157-1.723L5.633 10.5H3.462c-1.57 0-2.346-1.909-1.22-3.004L9.503.429z"></path></svg>
+    <strong>Important: </strong>The first child of a <code>PanGestureHandler</code> component must be an <code>Animated.View</code> or else it would not work!
+</div>
+We wouldn't be able to swipe just yet because we haven't handled the swipe gesture events yet. That's what we will be doing next.
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Handling-Swipe-Events">
+<a class="anchor" href="#Handling-Swipe-Events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Handling Swipe Events<a class="anchor-link" href="#Handling-Swipe-Events"> </a>
+</h2>
+<p>To handle the swipe events we would be using the <code>PanGestureHandler</code> component's <code>onGestureEvent</code> prop, and also define the events using the <code>useAnimatedGestureHandler</code> hook from the <code>react-native-reanimated</code> package. We'd create a shared value where we would store the gesture translation, which we can then use in our style for the component we want to be swipeable.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">PanGestureHandlerGestureEvent</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native-gesture-handler"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">useAnimatedGestureHandler</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native-reanimated"</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="nx">type</span> <span class="nx">Context</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">translateY</span>: <span class="kt">number</span><span class="p">;</span>
+<span class="p">};</span>
+<span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+  <span class="p">...</span>
+  <span class="kr">const</span> <span class="nx">swipe</span> <span class="o">=</span> <span class="nx">useSharedValue</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="p">...</span>
+  <span class="kr">const</span> <span class="nx">gestureHandler</span> <span class="o">=</span> <span class="nx">useAnimatedGestureHandler</span><span class="o">&lt;</span>
+    <span class="nx">PanGestureHandlerGestureEvent</span><span class="p">,</span>
+    <span class="nx">Context</span>
+<span class="o">&gt;</span> <span class="p">({</span>
+    <span class="nx">onActive</span><span class="o">:</span><span class="p">({</span> <span class="nx">translationY</span> <span class="p">},</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>      <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">translationY</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">translateY</span><span class="p">;</span>
+    <span class="p">},</span>
+    <span class="nx">onFinish</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withTiming</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{</span> <span class="nx">easing</span>: <span class="kt">Easing.inOut</span><span class="p">(</span><span class="nx">Easing</span><span class="p">.</span><span class="nx">linear</span><span class="p">)</span> <span class="p">});</span>
+    <span class="p">},</span>
+    <span class="nx">onStart</span><span class="o">:</span> <span class="p">(</span><span class="nx">_</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">context</span><span class="p">.</span><span class="nx">translateY</span> <span class="o">=</span> <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span><span class="p">;</span>
+    <span class="p">},</span>
+  <span class="p">});</span>
+  <span class="p">...</span>
+  <span class="kr">const</span> <span class="nx">swipeStyle</span> <span class="o">=</span> <span class="nx">useAnimatedStyle</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+    <span class="nx">transform</span><span class="o">:</span> <span class="p">[{</span> <span class="nx">translateY</span>: <span class="kt">swipe.value</span> <span class="p">}],</span>
+  <span class="p">}));</span>
+  <span class="p">...</span>
+
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="p">...</span>
+        <span class="o">&lt;</span><span class="nx">PanGestureHandler</span>
+          <span class="nx">activeOffsetY</span><span class="o">=</span><span class="p">{[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]}</span>
+          <span class="nx">onGestureEvent</span><span class="o">=</span><span class="p">{</span><span class="nx">gestureHandler</span><span class="p">}</span>
+<span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">repeatContainer</span><span class="p">,</span> <span class="nx">repeatTranslateStyle</span><span class="p">]}</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">acceptText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Swipe</span> <span class="nx">up</span> <span class="nx">to</span> <span class="nx">answer</span><span class="p">...</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">swipeStyle</span><span class="p">}</span><span class="o">&gt;</span>
+              <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p"></span><span class="o">&gt;</span><span class="err">📞</span><span class="o">&lt;</span><span class="err">/Text&gt;            &lt;/Animated.View&gt;</span>
+          <span class="o">&lt;</span><span class="err">/Animated.View&gt;</span>
+        <span class="o">&lt;</span><span class="err">/PanGestureHandler&gt;</span>
+    <span class="p">...</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="p">...</span>
+</pre></div>
+<p>We wrap our icon placeholder with an <code>Animated.View</code> which we would apply the swipe styles to. This makes the icon move with the swipe gesture based on the <code>translationY</code> value we get from the <code>PanGestureHandler</code>.</p>
+<p>The <code>onActive</code> callback is used to get the current value of our swipe translationY on the screen and this is stored in the <code>swipe</code> shared value. The <code>onFinish</code> callback is used to reset the <code>swipe</code> shared value to 0 after the gesture is finished. The <code>onStart</code> callback is used to store the swipe value in a context object, so that we do not start from 0 again when we start a new gesture.</p>
+<p>We should get this on our screen:</p>
+<p>However we quickly notice that we can swipe our icon to the very top and very bottom of our screens, this is not what we intended, so we write a <code>clamp</code> worklet function to handle this by limiting the value we assign to the <code>swipe</code> shared value to be between the minimum and maximum we specify.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="kd">function</span> <span class="nx">clamp</span><span class="p">(</span><span class="kt">number</span><span class="o">:</span> <span class="kt">number</span><span class="p">,</span> <span class="nx">min</span>: <span class="kt">number</span><span class="p">,</span> <span class="nx">max</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
+  <span class="s2">"worklet"</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="kt">number</span><span class="p">,</span> <span class="nx">min</span><span class="p">),</span> <span class="nx">max</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">...</span>
+<span class="kr">const</span> <span class="nx">maxClamp</span> <span class="o">=</span> <span class="mi">60</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">minClamp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">80</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+  <span class="p">...</span>
+  <span class="kr">const</span> <span class="nx">gestureHandler</span> <span class="o">=</span> <span class="nx">useAnimatedGestureHandler</span><span class="o">&lt;</span>
+    <span class="nx">PanGestureHandlerGestureEvent</span><span class="p">,</span>
+    <span class="nx">Context</span>
+<span class="o">&gt;</span> <span class="p">({</span>
+    <span class="nx">onActive</span><span class="o">:</span><span class="p">({</span> <span class="nx">translationY</span> <span class="p">},</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>      <span class="kr">const</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">translationY</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">translateY</span><span class="p">;</span>
+      <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="nx">minClamp</span><span class="p">,</span> <span class="nx">maxClamp</span><span class="p">);</span>
+    <span class="p">},</span>
+  <span class="p">...</span>
+  <span class="p">});</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</pre></div>
+<p>Now our swipe shared value will be clamped between the <strong>-80</strong> and <strong>60</strong> as specified above.
+This results in:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Handling-Loop-Animation-On-Swipe">
+<a class="anchor" href="#Handling-Loop-Animation-On-Swipe" aria-hidden="true"><span class="octicon octicon-link"></span></a>Handling Loop Animation On Swipe<a class="anchor-link" href="#Handling-Loop-Animation-On-Swipe"> </a>
+</h2>
+<p>From what we have so far above, you'd notice that when we start swiping, our loop animation is still repeating, this is because we are using the <code>withRepeat</code> function to repeat the animation. The preffered behaviour would be to stop the animation altogether when the user starts swiping and then start it again when the user stops swiping. We can do this by setting the <code>repeatTranslate</code> shared value to <strong>0</strong> in the <code>onActive</code> callback and then calling the <code>doRepeat</code> worklet function in the <code>onFinish</code> callback.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+  <span class="kr">const</span> <span class="nx">gestureHandler</span> <span class="o">=</span> <span class="nx">useAnimatedGestureHandler</span><span class="o">&lt;</span>
+    <span class="nx">PanGestureHandlerGestureEvent</span><span class="p">,</span>
+    <span class="nx">Context</span>
+<span class="o">&gt;</span> <span class="p">({</span>
+    <span class="nx">onActive</span><span class="o">:</span><span class="p">({</span> <span class="nx">translationY</span> <span class="p">},</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>      <span class="nx">repeatTranslate</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="kr">const</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">translationY</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">translateY</span><span class="p">;</span>
+      <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="nx">minClamp</span><span class="p">,</span> <span class="nx">maxClamp</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">onFinish</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withTiming</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{</span> <span class="nx">easing</span>: <span class="kt">Easing.inOut</span><span class="p">(</span><span class="nx">Easing</span><span class="p">.</span><span class="nx">linear</span><span class="p">)</span> <span class="p">});</span>
+      <span class="nx">doRepeat</span><span class="p">();</span>
+    <span class="p">},</span>
+    <span class="p">...</span>
+<span class="p">})</span>
+</pre></div>
+<p>We should get this on our screens:
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+    <strong>Note: </strong>Our loop animation stops when the user starts swiping and starts again when the user stops swiping.
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Handling-Opacity-of-Texts-when-Swiping">
+<a class="anchor" href="#Handling-Opacity-of-Texts-when-Swiping" aria-hidden="true"><span class="octicon octicon-link"></span></a>Handling Opacity of Texts when Swiping<a class="anchor-link" href="#Handling-Opacity-of-Texts-when-Swiping"> </a>
+</h2>
+<p>According to the reference, when we start swiping, both the accept text and decline text would fade out. And when the swipe gesture is finished, both the accept text and decline text would fade in. We can achieve this in two ways, either interpolating on the <code>swipe</code> shared value or creating a shared value <code>textOpacity</code> which we can the animate to 0 in the <code>onStart</code> callback, and animate to 1 in the <code>onFinish</code> callback. Both would give similar results, but I prefer the latter.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+    <span class="p">...</span>
+    <span class="kr">const</span> <span class="nx">textOpacity</span> <span class="o">=</span> <span class="nx">useSharedValue</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">...</span>
+     <span class="kr">const</span> <span class="nx">acceptOpacity</span> <span class="o">=</span> <span class="nx">useAnimatedStyle</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">({</span>
+        <span class="nx">opacity</span>: <span class="kt">textOpacity.value</span><span class="p">,</span>
+    <span class="p">}));</span>
+    <span class="kr">const</span> <span class="nx">declineOpacity</span> <span class="o">=</span> <span class="nx">useAnimatedStyle</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">Opacity</span> <span class="o">=</span> <span class="nx">interpolate</span><span class="p">(</span>
+        <span class="nx">repeatTranslate</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="nx">Extrapolate</span><span class="p">.</span><span class="nx">CLAMP</span><span class="p">,</span>
+        <span class="p">);</span>
+        <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">opacity</span>: <span class="kt">repeatTranslate.value</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">?</span> <span class="nx">textOpacity.value</span> : <span class="kt">Opacity</span><span class="p">,</span>
+        <span class="p">};</span>
+    <span class="p">});</span>
+    <span class="p">...</span>
+    <span class="kr">const</span> <span class="nx">gestureHandler</span> <span class="o">=</span> <span class="nx">useAnimatedGestureHandler</span><span class="o">&lt;</span>
+    <span class="nx">PanGestureHandlerGestureEvent</span><span class="p">,</span>
+    <span class="nx">Context</span>
+<span class="o">&gt;</span> <span class="p">({</span>
+    <span class="nx">onActive</span><span class="o">:</span><span class="p">({</span> <span class="nx">translationY</span> <span class="p">},</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>        <span class="p">...</span>
+        <span class="nx">textOpacity</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withTiming</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">onFinish</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="p">...</span>
+        <span class="nx">textOpacity</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withTiming</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+        <span class="p">...</span>
+    <span class="p">},</span>
+    <span class="p">...</span>
+    <span class="p">});</span>
+    <span class="p">...</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="p">...</span>
+        <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">acceptText</span><span class="p">,</span> <span class="nx">acceptOpacity</span><span class="p">]}</span><span class="o">&gt;</span>
+          <span class="nx">Swipe</span> <span class="nx">up</span> <span class="nx">to</span> <span class="nx">answer</span><span class="p">...</span>
+        <span class="o">&lt;</span><span class="err">/Animated.Text&gt;</span>
+        <span class="p">....</span>
+        <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">declineText</span><span class="p">,</span> <span class="nx">declineOpacity</span><span class="p">]}</span><span class="o">&gt;</span>
+          <span class="nx">Swipe</span> <span class="nx">down</span> <span class="nx">to</span> <span class="nx">decline</span><span class="p">...</span>
+        <span class="o">&lt;</span><span class="err">/Animated.Text&gt;</span>
+        <span class="p">...</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</pre></div>
+<p>We modified <code>declineOpacity</code> style and set the opacity conditionally based on the <code>repeatTranslate</code> shared value. We also added <code>acceptOpacity</code> style for the accept text.</p>
+<p>This should result in:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Building-Our-Icon-Animation">
+<a class="anchor" href="#Building-Our-Icon-Animation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building Our Icon Animation<a class="anchor-link" href="#Building-Our-Icon-Animation"> </a>
+</h1>
+<p>Next thing to do is to remove our icon placeholder and replace it with our animated icon. We are going to be using SVG's to build our icon, I grabbed one of the icons from <a href="https://www.svgrepo.com/" title="svg repo">SVG Repo</a> and converted it to a React Native component using <a href="https://react-svgr.com/playground/?native=true" title="svgr">SVGR</a>. Here is the converted icon component in a separate file <strong>"PhoneIcon.tsx"</strong>:</p>
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="o">*</span> <span class="kr">as</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Svg</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Path</span><span class="p">,</span> <span class="nx">SvgProps</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native-svg"</span><span class="p">;</span>
+
+<span class="kd">function</span> <span class="nx">PhoneIcon</span><span class="p">(</span><span class="nx">props</span>: <span class="kt">SvgProps</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">Svg</span> <span class="nx">fill</span><span class="o">=</span><span class="s2">"none"</span> <span class="nx">height</span><span class="o">=</span><span class="p">{</span><span class="mi">24</span><span class="p">}</span> <span class="nx">width</span><span class="o">=</span><span class="p">{</span><span class="mi">24</span><span class="p">}</span> <span class="p">{...</span><span class="nx">props</span><span class="p">}</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">Path</span>
+        <span class="nx">d</span><span class="o">=</span><span class="s2">"M3.51 2l3.64.132A1.961 1.961 0 018.89 3.37l1.077 2.662c.25.62.183 1.326-.18 1.884l-1.379 2.121c.817 1.173 3.037 3.919 5.388 5.526l1.752-1.079a1.917 1.917 0 011.483-.226l3.485.894c.927.237 1.551 1.126 1.478 2.103l-.224 2.983c-.078 1.047-.935 1.869-1.952 1.75C6.392 20.429-1.481 2 3.511 2z"</span>
+        <span class="nx">stroke</span><span class="o">=</span><span class="s2">"#0f0"</span>
+        <span class="nx">strokeLinecap</span><span class="o">=</span><span class="s2">"round"</span>
+        <span class="nx">strokeLinejoin</span><span class="o">=</span><span class="s2">"round"</span>
+        <span class="nx">strokeWidth</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span>
+      <span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="err">/Svg&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kr">export</span> <span class="k">default</span> <span class="nx">PhoneIcon</span><span class="p">;</span>
+</pre></div>
+<p>Now we can import it and use it in our screen to replace the placeholder icon:</p>
+<div class="highlight"><pre><span></span><span class="k">return</span> <span class="p">(</span>
+    <span class="p">...</span>
+      <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">iconContainer</span><span class="p">,</span> <span class="nx">swipeStyle</span><span class="p">]}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">PhoneIcon</span> <span class="o">/&gt;</span>
+      <span class="o">&lt;</span><span class="err">/Animated.View&gt;</span>
+    <span class="p">...</span>
+  <span class="p">)</span>
+  <span class="p">...</span>
+  <span class="kr">const</span> <span class="nx">styles</span> <span class="o">=</span> <span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+    <span class="p">...</span>
+    <span class="nx">iconContainer</span><span class="o">:</span> <span class="p">{</span>
+      <span class="nx">alignItems</span><span class="o">:</span> <span class="s2">"center"</span><span class="p">,</span>
+      <span class="nx">backgroundColor</span><span class="o">:</span> <span class="s2">"#3A3B40"</span><span class="p">,</span>
+      <span class="nx">borderRadius</span>: <span class="kt">40</span><span class="p">,</span>
+      <span class="nx">height</span>: <span class="kt">80</span><span class="p">,</span>
+      <span class="nx">justifyContent</span><span class="o">:</span> <span class="s2">"center"</span><span class="p">,</span>
+      <span class="nx">width</span>: <span class="kt">80</span><span class="p">,</span>
+   <span class="p">},</span>
+   <span class="p">...</span>
+  <span class="p">});</span>
+<span class="p">...</span>
+</pre></div>
+<p>We should get this on our screen:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Animating-Our-SVG-Icon">
+<a class="anchor" href="#Animating-Our-SVG-Icon" aria-hidden="true"><span class="octicon octicon-link"></span></a>Animating Our SVG Icon<a class="anchor-link" href="#Animating-Our-SVG-Icon"> </a>
+</h2>
+<p>We would like to animate the stroke color and also rotate the icon based on the swipe gesture, we'd have to turn our <code>Path</code> to an Animated one and also wrap the icon in an <code>Animated.View</code>. to apply the rotation style.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">StyleProp</span><span class="p">,</span> <span class="nx">ViewStyle</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Animated</span> <span class="nx">from</span> <span class="s2">"react-native-reanimated"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="nx">Svg</span><span class="p">,</span> <span class="p">{</span> <span class="nx">Path</span><span class="p">,</span> <span class="nx">PathProps</span><span class="p">,</span> <span class="nx">SvgProps</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native-svg"</span><span class="p">;</span>
+
+<span class="kr">const</span> <span class="nx">AnimatedPath</span> <span class="o">=</span> <span class="nx">Animated</span><span class="p">.</span><span class="nx">createAnimatedComponent</span><span class="p">(</span><span class="nx">Path</span><span class="p">);</span>
+
+<span class="kr">interface</span> <span class="nx">IconProps</span> <span class="kr">extends</span> <span class="nx">SvgProps</span> <span class="p">{</span>
+  <span class="nx">animatedProps?</span>: <span class="kt">Partial</span><span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">AnimateProps</span><span class="o">&lt;</span><span class="nx">PathProps</span><span class="o">&gt;&gt;</span> <span class="o">|</span> <span class="kc">undefined</span><span class="p">;</span>
+  <span class="nx">rotationStyle?</span>: <span class="kt">StyleProp</span><span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">AnimateStyle</span><span class="o">&lt;</span><span class="nx">StyleProp</span><span class="o">&lt;</span><span class="nx">ViewStyle</span><span class="o">&gt;&gt;&gt;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">PhoneIcon</span><span class="p">(</span><span class="nx">props</span>: <span class="kt">IconProps</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">rotationStyle</span><span class="p">}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">Svg</span> <span class="nx">fill</span><span class="o">=</span><span class="s2">"none"</span> <span class="nx">height</span><span class="o">=</span><span class="p">{</span><span class="mi">24</span><span class="p">}</span> <span class="nx">width</span><span class="o">=</span><span class="p">{</span><span class="mi">24</span><span class="p">}</span> <span class="p">{...</span><span class="nx">props</span><span class="p">}</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">AnimatedPath</span>
+                <span class="nx">animatedProps</span><span class="o">=</span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">animatedProps</span><span class="p">}</span>
+                <span class="nx">d</span><span class="o">=</span><span class="s2">"M3.51 2l3.64.132A1.961 1.961 0 018.89 3.37l1.077 2.662c.25.62.183 1.326-.18 1.884l-1.379 2.121c.817 1.173 3.037 3.919 5.388 5.526l1.752-1.079a1.917 1.917 0 011.483-.226l3.485.894c.927.237 1.551 1.126 1.478 2.103l-.224 2.983c-.078 1.047-.935 1.869-1.952 1.75C6.392 20.429-1.481 2 3.511 2z"</span>
+                <span class="nx">strokeLinecap</span><span class="o">=</span><span class="s2">"round"</span>
+                <span class="nx">strokeLinejoin</span><span class="o">=</span><span class="s2">"round"</span>
+                <span class="nx">strokeWidth</span><span class="o">=</span><span class="p">{</span><span class="mi">2</span><span class="p">}</span>
+            <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/Svg&gt;</span>
+    <span class="o">&lt;</span><span class="err">/Animated.View&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+<p></p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info" viewbox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"></path></svg>
+    <strong>Note: </strong>You might get an error message relating to <code>animatedProps</code>, do not panic yet we would fix it soon
+</div>
+Let us define our <code>animatedProps</code> and <code>rotationStyle</code>:
+<div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="kr">import</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="nx">Extrapolate</span><span class="p">,</span>
+    <span class="nx">interpolate</span><span class="p">,</span>
+    <span class="nx">interpolateColor</span><span class="p">,</span>
+    <span class="nx">runOnJS</span><span class="p">,</span>
+    <span class="p">...</span>
+<span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native-reanimated"</span><span class="p">;</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">PathProps</span> <span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native-svg"</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+    <span class="p">...</span>
+    <span class="kr">const</span> <span class="nx">iconProps</span> <span class="o">=</span> <span class="nx">useAnimatedProps</span><span class="o">&lt;</span><span class="nx">PathProps</span><span class="o">&gt;</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">color</span> <span class="o">=</span> <span class="nx">interpolateColor</span><span class="p">(</span>
+      <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+      <span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span>
+      <span class="p">[</span><span class="s2">"#ffffff"</span><span class="p">,</span> <span class="s2">"#00ff00"</span><span class="p">,</span> <span class="s2">"#ffffff"</span><span class="p">],</span>
+    <span class="p">);</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">stroke</span>: <span class="kt">color</span><span class="p">,</span>
+      <span class="p">};</span>
+    <span class="p">});</span>
+
+  <span class="kr">const</span> <span class="nx">rotationStyle</span> <span class="o">=</span> <span class="nx">useAnimatedStyle</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kr">const</span> <span class="nx">rotation</span> <span class="o">=</span> <span class="nx">interpolate</span><span class="p">(</span>
+      <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+      <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
+      <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">135</span><span class="p">],</span>
+      <span class="nx">Extrapolate</span><span class="p">.</span><span class="nx">CLAMP</span><span class="p">,</span>
+    <span class="p">);</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">transform</span><span class="o">:</span> <span class="p">[{</span> <span class="nx">rotate</span><span class="o">:</span> <span class="sb">`</span><span class="si">${</span><span class="nx">rotation</span><span class="si">}</span><span class="sb">deg`</span> <span class="p">}],</span>
+    <span class="p">};</span>
+  <span class="p">});</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="p">...</span>
+        <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">iconContainer</span><span class="p">,</span> <span class="nx">swipeStyle</span><span class="p">]}</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">PhoneIcon</span> <span class="nx">animatedProps</span><span class="o">=</span><span class="p">{</span><span class="nx">iconProps</span><span class="p">}</span> <span class="nx">rotationStyle</span><span class="o">=</span><span class="p">{</span><span class="nx">rotationStyle</span><span class="p">}</span> <span class="o">/&gt;</span>
+        <span class="o">&lt;</span><span class="err">/Animated.View&gt;</span>
+        <span class="p">...</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</pre></div>
+<p>From the snippet above we are interpolating on the swipe value to get the color and rotation. To interpolate colors we need to use the <code>interpolateColor</code> function rather than the regular <code>interpolate</code> function.</p>
+<p>We also need to animate the icon container's background color based on the swipe gesture. We just need to add a <code>backgroundColor</code> property to our <code>swipeStyle</code> and then use the <code>interpolateColor</code> function to achieve the desired result based on the swipe gesture.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+    <span class="p">....</span>
+    <span class="kr">const</span> <span class="nx">swipeStyle</span> <span class="o">=</span> <span class="nx">useAnimatedStyle</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">color</span> <span class="o">=</span> <span class="nx">interpolateColor</span><span class="p">(</span>
+        <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+        <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span>
+        <span class="p">[</span><span class="s2">"#00ff00"</span><span class="p">,</span> <span class="s2">"#3A3B40"</span><span class="p">,</span> <span class="s2">"#ff0000"</span><span class="p">],</span>
+        <span class="p">);</span>
+        <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">backgroundColor</span>: <span class="kt">color</span><span class="p">,</span>
+        <span class="nx">transform</span><span class="o">:</span> <span class="p">[{</span> <span class="nx">translateY</span>: <span class="kt">swipe.value</span> <span class="p">}],</span>
+        <span class="p">};</span>
+  <span class="p">});</span>
+  <span class="p">...</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="p">...</span>
+    <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">iconContainer</span><span class="p">,</span> <span class="nx">swipeStyle</span><span class="p">]}</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">PhoneIcon</span>
+            <span class="nx">animatedProps</span><span class="o">=</span><span class="p">{</span><span class="nx">iconProps</span><span class="p">}</span>
+            <span class="nx">rotationStyle</span><span class="o">=</span><span class="p">{</span><span class="nx">rotationStyle</span><span class="p">}</span>
+        <span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="err">/Animated.View&gt;</span>
+    <span class="p">...</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</pre></div>
+<p>This should give us the following result:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Heading-Animation">
+<a class="anchor" href="#Heading-Animation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Heading Animation<a class="anchor-link" href="#Heading-Animation"> </a>
+</h2>
+<p>Next, we would also like to animate the heading container, which houses the <code>Call from</code> text, the <code>Mobile +...</code> text and their name (if saved).</p>
+<p>We can just convert the container to and animated one and then interpolate on the <code>swipe</code> shared value to get some transform properties, we are interested in the <code>scale</code>, <code>translateY</code> and <code>opacity</code> properties.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+    <span class="p">....</span>
+    <span class="kr">const</span> <span class="nx">headingStyle</span> <span class="o">=</span> <span class="nx">useAnimatedStyle</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">headingStyleTextOpacity</span> <span class="o">=</span> <span class="nx">interpolate</span><span class="p">(</span>
+        <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+        <span class="p">[</span><span class="nx">minClamp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">maxClamp</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="nx">Extrapolate</span><span class="p">.</span><span class="nx">CLAMP</span><span class="p">,</span>
+        <span class="p">);</span>
+        <span class="kr">const</span> <span class="nx">headingStyleTextScale</span> <span class="o">=</span> <span class="nx">interpolate</span><span class="p">(</span>
+        <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+        <span class="p">[</span><span class="nx">minClamp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">maxClamp</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.7</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">],</span>
+        <span class="nx">Extrapolate</span><span class="p">.</span><span class="nx">CLAMP</span><span class="p">,</span>
+        <span class="p">);</span>
+        <span class="kr">const</span> <span class="nx">headingStyleTranslate</span> <span class="o">=</span> <span class="nx">interpolate</span><span class="p">(</span>
+        <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+        <span class="p">[</span><span class="nx">minClamp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">maxClamp</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span>
+        <span class="nx">Extrapolate</span><span class="p">.</span><span class="nx">CLAMP</span><span class="p">,</span>
+        <span class="p">);</span>
+        <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">opacity</span>: <span class="kt">headingStyleTextOpacity</span><span class="p">,</span>
+        <span class="nx">transform</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span> <span class="nx">scale</span>: <span class="kt">headingStyleTextScale</span> <span class="p">},</span>
+            <span class="p">{</span> <span class="nx">translateY</span>: <span class="kt">headingStyleTranslate</span> <span class="p">},</span>
+        <span class="p">],</span>
+        <span class="p">};</span>
+    <span class="p">});</span>
+    <span class="p">...</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="p">....</span>
+        <span class="o">&lt;</span><span class="nx">Animated</span><span class="p">.</span><span class="nx">View</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">headingStyle</span><span class="p">}</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">callingText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Call</span> <span class="nx">from</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">callingText</span><span class="p">,</span> <span class="p">{</span> <span class="nx">fontSize</span>: <span class="kt">36</span><span class="p">,</span> <span class="nx">fontWeight</span><span class="o">:</span> <span class="s2">"800"</span> <span class="p">}]}</span><span class="o">&gt;</span>
+            <span class="nx">Tech</span> <span class="nx">Support</span> <span class="nx">NG</span>
+            <span class="o">&lt;</span><span class="err">/Text&gt;</span>
+            <span class="o">&lt;</span><span class="nx">Text</span> <span class="nx">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">callingText</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">Mobile</span> <span class="o">+</span><span class="mi">234</span> <span class="mi">00</span> <span class="mi">000</span> <span class="mi">000</span><span class="o">&lt;</span><span class="err">/Text&gt;</span>
+        <span class="o">&lt;</span><span class="err">/Animated.View&gt;</span>
+        <span class="p">...</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</pre></div>
+<p>Lastly, we might want to define actions to do when we reach the threshold for accept or rejecting / declining the call. For now we can just log to the console, this can be defined in the <code>onFinish</code> callback.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+  <span class="kr">const</span> <span class="nx">gestureHandler</span> <span class="o">=</span> <span class="nx">useAnimatedGestureHandler</span><span class="o">&lt;</span>
+    <span class="nx">PanGestureHandlerGestureEvent</span><span class="p">,</span>
+    <span class="nx">Context</span>
+<span class="o">&gt;</span> <span class="p">({</span>
+    <span class="nx">onFinish</span><span class="o">:</span><span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>    <span class="p">...</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">&lt;=</span> <span class="nx">minClamp</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Accepting call"</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">&gt;=</span> <span class="nx">maxClamp</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Rejecting call"</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">...</span>
+    <span class="p">},</span>
+  <span class="p">});</span>
+<span class="p">...</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Bonus">
+<a class="anchor" href="#Bonus" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bonus<a class="anchor-link" href="#Bonus"> </a>
+</h3>
+<p>The phone icon vibrates as it is ringing. Let us declare a shared value <code>vibration</code>, and react to the <code>repeatTranslate</code> shared value, so we can play the animation at a certain point in the <code>repeatTranslate</code>'s translation cycle.</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="kr">import</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="nx">useAnimatedReaction</span><span class="p">,</span>
+    <span class="nx">withSequence</span><span class="p">,</span>
+    <span class="p">...</span>
+<span class="p">}</span> <span class="nx">from</span> <span class="s2">"react-native-reanimated"</span>
+<span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+    <span class="p">...</span>
+    <span class="kr">const</span> <span class="nx">vibration</span> <span class="o">=</span> <span class="nx">useSharedValue</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="p">...</span>  
+    <span class="nx">useAnimatedReaction</span><span class="p">(</span>
+        <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">repeatTranslate</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+        <span class="p">(</span><span class="nx">prep</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">prep</span> <span class="o">===</span> <span class="o">-</span><span class="mi">50</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">vibration</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withSequence</span><span class="p">(</span>
+            <span class="nx">withTiming</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="p">{</span> <span class="nx">duration</span>: <span class="kt">25</span> <span class="p">}),</span>
+            <span class="nx">withRepeat</span><span class="p">(</span><span class="nx">withTiming</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="p">{</span> <span class="nx">duration</span>: <span class="kt">50</span> <span class="p">}),</span> <span class="mi">12</span><span class="p">,</span> <span class="kc">true</span><span class="p">),</span>
+            <span class="nx">withTiming</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{</span> <span class="nx">duration</span>: <span class="kt">25</span> <span class="p">}),</span>
+            <span class="p">);</span>
+        <span class="p">}</span>
+        <span class="p">},</span>
+    <span class="p">);</span>
+    <span class="p">...</span>
+    <span class="kr">const</span> <span class="nx">rotationStyle</span> <span class="o">=</span> <span class="nx">useAnimatedStyle</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="kr">const</span> <span class="nx">rotation</span> <span class="o">=</span> <span class="nx">interpolate</span><span class="p">(</span>
+        <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
+        <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">135</span><span class="p">],</span>
+        <span class="nx">Extrapolate</span><span class="p">.</span><span class="nx">CLAMP</span><span class="p">,</span>
+        <span class="p">);</span>
+        <span class="k">return</span> <span class="p">{</span>
+        <span class="nx">transform</span><span class="o">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+            <span class="nx">rotate</span><span class="o">:</span> <span class="sb">`</span><span class="si">${</span>
+                <span class="nx">repeatTranslate</span><span class="p">.</span><span class="nx">value</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">&gt;=</span> <span class="mi">10</span>
+                <span class="o">?</span> <span class="nx">rotation</span>
+                : <span class="kt">vibration.value</span>
+            <span class="si">}</span><span class="sb">deg`</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">],</span>
+        <span class="p">};</span>
+    <span class="p">});</span>
+    <span class="p">...</span>
+
+<span class="p">}</span>
+<span class="p">...</span>
+</pre></div>
+<p>So we effectively modified our rotation style and set the rotate transform property dynamically based on <code>repeatTranslate</code> and <code>swipe</code> values.</p>
+<p>Our final result should look like this:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Refactor,-Refactor,-Refactor...">
+<a class="anchor" href="#Refactor,-Refactor,-Refactor..." aria-hidden="true"><span class="octicon octicon-link"></span></a>Refactor, Refactor, Refactor...<a class="anchor-link" href="#Refactor,-Refactor,-Refactor..."> </a>
+</h1>
+<p>Just as a bonus tip, we can refactor our code to make it more readable and maintainable using custom hooks and also moving some of our <code>jsx</code> into custom components. I wouldn't be touching on the latter, rather I would just provide a snippet on the custom hook part, you can find the refactored code in the <a href="https://github.com/BalogunofAfrica/rn-material-you-animations/tree/main/app/screens/IncomingCall" title="Source Code">GitHub repository</a>.</p>
+<p>I have moved all the logic for animations into a custom hook called <code>useIncomingCallAnimation</code>. This hook takes two arguments, a callback for the accept action, and a callback for the reject action, then it returns all our animated styles and props, and gesture handler just as we have used them above.</p>
+<p>Using this hook in <code>IncomingCall.tsx</code> component, we can now write the following:</p>
+<div class="highlight"><pre><span></span><span class="p">...</span>
+<span class="kd">function</span> <span class="nx">IncomingCall() {</span>
+    <span class="p">...</span>
+    <span class="kr">const</span> <span class="p">{</span>
+        <span class="nx">acceptOpacity</span><span class="p">,</span>
+        <span class="nx">declineOpacity</span><span class="p">,</span>
+        <span class="nx">gestureContainerStyle</span><span class="p">,</span>
+        <span class="nx">gestureHandler</span><span class="p">,</span>
+        <span class="nx">headingStyle</span><span class="p">,</span>
+        <span class="nx">iconProps</span><span class="p">,</span>
+        <span class="nx">repeatTranslateStyle</span><span class="p">,</span>
+        <span class="nx">rotationStyle</span><span class="p">,</span>
+        <span class="nx">swipeStyle</span><span class="p">,</span>
+    <span class="p">}</span> <span class="o">=</span> <span class="nx">useIncomingCallAnimation</span><span class="p">(</span>
+        <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Accepting call"</span><span class="p">),</span>
+        <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Rejecting call"</span><span class="p">),</span>
+    <span class="p">);</span>
+<span class="p">...</span>
+</pre></div>
+<p>Check <a href="https://github.com/BalogunofAfrica/rn-material-you-animations/blob/main/app/hooks/animation/useIncomingCallAnimation.ts" title="Source Code">here</a> for the refactored code for the custom hook.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="BalogunofAfrica/fittedlearner"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/fittedlearner/react%20native/reanimated/material%20you/android/2021/12/02/android-incoming-call-animation.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/fittedlearner/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/fittedlearner/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/fittedlearner/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Come walk with me on my journey architecting software.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/balogunofafrica" title="balogunofafrica"><svg class="svg-icon grey"><use xlink:href="/fittedlearner/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/balogunofafrica" title="balogunofafrica"><svg class="svg-icon grey"><use xlink:href="/fittedlearner/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
