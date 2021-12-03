@@ -173,6 +173,15 @@ window.onload = wrap_img;
 </h1>
 <p>This lecture would be a series of we trying to reproduce some Android system applications animations using <a href="https://reactnative.dev/" title="React Native">React Native</a>, the source code for upcoming lectures can be found <a href="https://github.com/BalogunofAfrica/rn-material-you-animations" title="Source Code">here</a> ahead of time.</p>
 <p>I would also be updating this section in the future as other parts of the series are made available.</p>
+<p>For reference, this is what we would be building:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1SOfxH-v4wKnG4M2N5qW_6Zx-NPYWnhGx" alt=""></p>
 
 </div>
 </div>
@@ -301,6 +310,7 @@ window.onload = wrap_img;
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">IncomingCall</span><span class="p">;</span>
 </pre></div>
 <p>We should get the following on our screen:</p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1TMDbg3xSXtEEYcPS2XEUSyLys4eXPrLB" alt="" title="Initial View"></p>
 <p>Dont worry about the phone icon emoji, it is just a placeholder, we'd be building that later on.</p>
 
 </div>
@@ -373,6 +383,14 @@ window.onload = wrap_img;
 </pre></div>
 <p>We also added easing to the animation to give us an elastic effect.</p>
 <p>This should result in the following:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1ltbCsPYnH5IVAZ6zv1RuwYPofWuZ78Mj" alt=""></p>
 
 </div>
 </div>
@@ -459,6 +477,14 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1lUBtIb74HTXdudYw57z3tJrxsWo837iL" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Handling-Swipes">
 <a class="anchor" href="#Handling-Swipes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Handling Swipes<a class="anchor-link" href="#Handling-Swipes"> </a>
 </h1>
@@ -514,7 +540,11 @@ window.onload = wrap_img;
     <span class="nx">PanGestureHandlerGestureEvent</span><span class="p">,</span>
     <span class="nx">Context</span>
 <span class="o">&gt;</span> <span class="p">({</span>
-    <span class="nx">onActive</span><span class="o">:</span><span class="p">(</span><span class="nx">evt</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>      <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">translationY</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">translateY</span><span class="p">;</span>
+    <span class="nx">onActive</span><span class="o">:</span><span class="p">({</span> <span class="nx">translationY</span> <span class="p">},</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>      
+
+
+
+      <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">translationY</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">translateY</span><span class="p">;</span>
     <span class="p">},</span>
     <span class="nx">onFinish</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
       <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withTiming</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">{</span> <span class="nx">easing</span>: <span class="kt">Easing.inOut</span><span class="p">(</span><span class="nx">Easing</span><span class="p">.</span><span class="nx">linear</span><span class="p">)</span> <span class="p">});</span>
@@ -550,6 +580,7 @@ window.onload = wrap_img;
 <p>We wrap our icon placeholder with an <code>Animated.View</code> which we would apply the swipe styles to. This makes the icon move with the swipe gesture based on the <code>translationY</code> value we get from the <code>PanGestureHandler</code>.</p>
 <p>The <code>onActive</code> callback is used to get the current value of our swipe translationY on the screen and this is stored in the <code>swipe</code> shared value. The <code>onFinish</code> callback is used to reset the <code>swipe</code> shared value to 0 after the gesture is finished. The <code>onStart</code> callback is used to store the swipe value in a context object, so that we do not start from 0 again when we start a new gesture.</p>
 <p>We should get this on our screen:</p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1iLumhnbDvLTL7Bqa7m8XxrwTKGYMu3t7" alt=""></p>
 <p>However we quickly notice that we can swipe our icon to the very top and very bottom of our screens, this is not what we intended, so we write a <code>clamp</code> worklet function to handle this by limiting the value we assign to the <code>swipe</code> shared value to be between the minimum and maximum we specify.</p>
 <div class="highlight"><pre><span></span><span class="p">...</span>
 <span class="kd">function</span> <span class="nx">clamp</span><span class="p">(</span><span class="kt">number</span><span class="o">:</span> <span class="kt">number</span><span class="p">,</span> <span class="nx">min</span>: <span class="kt">number</span><span class="p">,</span> <span class="nx">max</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
@@ -577,6 +608,14 @@ window.onload = wrap_img;
 </pre></div>
 <p>Now our swipe shared value will be clamped between the <strong>-80</strong> and <strong>60</strong> as specified above.
 This results in:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1Ekwyn0aIxVlzy59CjTRVPIU6VxDkE6go" alt=""></p>
 
 </div>
 </div>
@@ -612,6 +651,14 @@ This results in:</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1YQMqvi2dcPV7vc8ccooUt00KfUVoMPqp" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Handling-Opacity-of-Texts-when-Swiping">
 <a class="anchor" href="#Handling-Opacity-of-Texts-when-Swiping" aria-hidden="true"><span class="octicon octicon-link"></span></a>Handling Opacity of Texts when Swiping<a class="anchor-link" href="#Handling-Opacity-of-Texts-when-Swiping"> </a>
 </h2>
@@ -625,14 +672,14 @@ This results in:</p>
         <span class="nx">opacity</span>: <span class="kt">textOpacity.value</span><span class="p">,</span>
     <span class="p">}));</span>
     <span class="kr">const</span> <span class="nx">declineOpacity</span> <span class="o">=</span> <span class="nx">useAnimatedStyle</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="kr">const</span> <span class="nx">Opacity</span> <span class="o">=</span> <span class="nx">interpolate</span><span class="p">(</span>
+        <span class="kr">const</span> <span class="nx">opacity</span> <span class="o">=</span> <span class="nx">interpolate</span><span class="p">(</span>
         <span class="nx">repeatTranslate</span><span class="p">.</span><span class="nx">value</span><span class="p">,</span>
         <span class="p">[</span><span class="o">-</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
         <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
         <span class="nx">Extrapolate</span><span class="p">.</span><span class="nx">CLAMP</span><span class="p">,</span>
         <span class="p">);</span>
         <span class="k">return</span> <span class="p">{</span>
-        <span class="nx">opacity</span>: <span class="kt">repeatTranslate.value</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">?</span> <span class="nx">textOpacity.value</span> : <span class="kt">Opacity</span><span class="p">,</span>
+        <span class="nx">opacity</span>: <span class="kt">repeatTranslate.value</span> <span class="o">===</span> <span class="mi">0</span> <span class="o">?</span> <span class="nx">textOpacity.value</span> : <span class="kt">opacity</span><span class="p">,</span>
         <span class="p">};</span>
     <span class="p">});</span>
     <span class="p">...</span>
@@ -667,6 +714,14 @@ This results in:</p>
 </pre></div>
 <p>We modified <code>declineOpacity</code> style and set the opacity conditionally based on the <code>repeatTranslate</code> shared value. We also added <code>acceptOpacity</code> style for the accept text.</p>
 <p>This should result in:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1567eVMdlP4ZNxBghipmAzSSNbPQ6plsm" alt=""></p>
 
 </div>
 </div>
@@ -721,6 +776,14 @@ This results in:</p>
 <span class="p">...</span>
 </pre></div>
 <p>We should get this on our screen:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1y8aAVdjZ_z8tpXCziwntgdp6ufuT1dg9" alt=""></p>
 
 </div>
 </div>
@@ -842,6 +905,14 @@ This results in:</p>
 <span class="p">...</span>
 </pre></div>
 <p>This should give us the following result:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1G0Z8Uxp1yQ6mmvX4iyZQ4EeemGVH2WMo" alt=""></p>
 
 </div>
 </div>
@@ -973,6 +1044,14 @@ This results in:</p>
 </pre></div>
 <p>So we effectively modified our rotation style and set the rotate transform property dynamically based on <code>repeatTranslate</code> and <code>swipe</code> values.</p>
 <p>Our final result should look like this:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1-1e0mHoYP_r-Fg29K9l1DY_rAWE06Miu" alt=""></p>
 
 </div>
 </div>
