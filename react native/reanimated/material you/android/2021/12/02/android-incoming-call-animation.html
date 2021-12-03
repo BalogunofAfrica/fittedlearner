@@ -595,7 +595,9 @@ window.onload = wrap_img;
     <span class="nx">PanGestureHandlerGestureEvent</span><span class="p">,</span>
     <span class="nx">Context</span>
 <span class="o">&gt;</span> <span class="p">({</span>
-    <span class="nx">onActive</span><span class="o">:</span><span class="p">(</span><span class="nx">evt</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>      <span class="kr">const</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">translationY</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">translateY</span><span class="p">;</span>
+    <span class="nx">onActive</span><span class="o">:</span><span class="p">({</span> <span class="nx">translationY</span> <span class="p">},</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="p">...</span>
+      <span class="kr">const</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">translationY</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">translateY</span><span class="p">;</span>
       <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="nx">minClamp</span><span class="p">,</span> <span class="nx">maxClamp</span><span class="p">);</span>
     <span class="p">},</span>
   <span class="p">...</span>
@@ -630,8 +632,10 @@ This results in:</p>
     <span class="nx">PanGestureHandlerGestureEvent</span><span class="p">,</span>
     <span class="nx">Context</span>
 <span class="o">&gt;</span> <span class="p">({</span>
-    <span class="nx">onActive</span><span class="o">:</span><span class="p">(</span><span class="nx">evt</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>      <span class="nx">repeatTranslate</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-      <span class="kr">const</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">evt</span><span class="p">.</span><span class="nx">translationY</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">translateY</span><span class="p">;</span>
+    <span class="nx">onActive</span><span class="o">:</span><span class="p">({</span> <span class="nx">translationY</span> <span class="p">},</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="p">...</span>
+      <span class="nx">repeatTranslate</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+      <span class="kr">const</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">translationY</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">translateY</span><span class="p">;</span>
       <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">clamp</span><span class="p">(</span><span class="nx">current</span><span class="p">,</span> <span class="nx">minClamp</span><span class="p">,</span> <span class="nx">maxClamp</span><span class="p">);</span>
     <span class="p">},</span>
     <span class="nx">onFinish</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -685,7 +689,8 @@ This results in:</p>
     <span class="nx">PanGestureHandlerGestureEvent</span><span class="p">,</span>
     <span class="nx">Context</span>
 <span class="o">&gt;</span> <span class="p">({</span>
-    <span class="nx">onActive</span><span class="o">:</span><span class="p">(</span><span class="nx">evt</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>        <span class="p">...</span>
+    <span class="nx">onActive</span><span class="o">:</span><span class="p">({</span> <span class="nx">translationY</span> <span class="p">},</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>        
+        <span class="p">...</span>
         <span class="nx">textOpacity</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">withTiming</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
     <span class="p">},</span>
     <span class="nx">onFinish</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
