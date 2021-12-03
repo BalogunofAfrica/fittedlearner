@@ -126,23 +126,23 @@ window.onload = wrap_img;
   <div class="post-content e-content" itemprop="articleBody">
     <ul class="section-nav">
 <li class="toc-entry toc-h1"><a href="#Overview">Overview </a></li>
-<li class="toc-entry toc-h1"><a href="#Setting-up-the-project">Setting up the project </a>
+<li class="toc-entry toc-h1"><a href="#Setting-Up-The-Project">Setting Up The Project </a>
 <ul>
-<li class="toc-entry toc-h2"><a href="#Bootstrapping-with-Expo">Bootstrapping with Expo </a></li>
-<li class="toc-entry toc-h2"><a href="#Installing-the-dependencies">Installing the dependencies </a></li>
+<li class="toc-entry toc-h2"><a href="#Bootstrapping-With-Expo">Bootstrapping With Expo </a></li>
+<li class="toc-entry toc-h2"><a href="#Installing-The-Dependencies">Installing The Dependencies </a></li>
 </ul>
 </li>
-<li class="toc-entry toc-h1"><a href="#Building-the-project">Building the project </a>
+<li class="toc-entry toc-h1"><a href="#Building-The-Project">Building The Project </a>
 <ul>
 <li class="toc-entry toc-h2"><a href="#Mount-Animation">Mount Animation </a></li>
-<li class="toc-entry toc-h2"><a href="#Putting-together-the-loop-animation">Putting together the loop animation </a></li>
+<li class="toc-entry toc-h2"><a href="#Putting-Together-The-Loop-Animation">Putting Together The Loop Animation </a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h1"><a href="#Handling-Swipes">Handling Swipes </a>
 <ul>
 <li class="toc-entry toc-h2"><a href="#Handling-Swipe-Events">Handling Swipe Events </a></li>
 <li class="toc-entry toc-h2"><a href="#Handling-Loop-Animation-On-Swipe">Handling Loop Animation On Swipe </a></li>
-<li class="toc-entry toc-h2"><a href="#Handling-Opacity-of-Texts-when-Swiping">Handling Opacity of Texts when Swiping </a></li>
+<li class="toc-entry toc-h2"><a href="#Handling-Opacity-Of-Texts-When-Swiping">Handling Opacity Of Texts When Swiping </a></li>
 </ul>
 </li>
 <li class="toc-entry toc-h1"><a href="#Building-Our-Icon-Animation">Building Our Icon Animation </a>
@@ -189,8 +189,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Setting-up-the-project">
-<a class="anchor" href="#Setting-up-the-project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting up the project<a class="anchor-link" href="#Setting-up-the-project"> </a>
+<h1 id="Setting-Up-The-Project">
+<a class="anchor" href="#Setting-Up-The-Project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting Up The Project<a class="anchor-link" href="#Setting-Up-The-Project"> </a>
 </h1>
 <p>We would be using <a href="https://docs.expo.dev/" title="expo">expo</a> to boostrap our project</p>
 
@@ -200,8 +200,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Bootstrapping-with-Expo">
-<a class="anchor" href="#Bootstrapping-with-Expo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bootstrapping with Expo<a class="anchor-link" href="#Bootstrapping-with-Expo"> </a>
+<h2 id="Bootstrapping-With-Expo">
+<a class="anchor" href="#Bootstrapping-With-Expo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bootstrapping With Expo<a class="anchor-link" href="#Bootstrapping-With-Expo"> </a>
 </h2>
 <p>You can read the <a href="https://docs.expo.dev/get-started/installation/">docs</a> on how to install and set up expo.</p>
 <p>Now, let's create the project using expo, run the following command in the terminal:</p>
@@ -215,8 +215,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Installing-the-dependencies">
-<a class="anchor" href="#Installing-the-dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installing the dependencies<a class="anchor-link" href="#Installing-the-dependencies"> </a>
+<h2 id="Installing-The-Dependencies">
+<a class="anchor" href="#Installing-The-Dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installing The Dependencies<a class="anchor-link" href="#Installing-The-Dependencies"> </a>
 </h2>
 <p>We would be needing <a href="https://docs.swmansion.com/react-native-reanimated/docs/" title="Reanimated">React Native Reanimated</a>, <a href="https://docs.swmansion.com/react-native-reanimated/docs/" title="Gesture Handler">React Native Gesture Handler</a> and <a href="https://github.com/react-native-svg/react-native-svg" title="React Native SVG">React Native SVG</a> to build the animations, handle gestures and draw paths respectively. We can install them using the following command:</p>
 <p><strong><code>With npm:</code></strong></p>
@@ -241,8 +241,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Building-the-project">
-<a class="anchor" href="#Building-the-project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building the project<a class="anchor-link" href="#Building-the-project"> </a>
+<h1 id="Building-The-Project">
+<a class="anchor" href="#Building-The-Project" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building The Project<a class="anchor-link" href="#Building-The-Project"> </a>
 </h1>
 <p>Let us create a file called <code>IncomingCall.tsx</code> and add the following code to build the view:</p>
 <div class="highlight"><pre><span></span><span class="kr">import</span> <span class="nx">React</span> <span class="nx">from</span> <span class="s2">"react"</span><span class="p">;</span>
@@ -398,8 +398,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Putting-together-the-loop-animation">
-<a class="anchor" href="#Putting-together-the-loop-animation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Putting together the loop animation<a class="anchor-link" href="#Putting-together-the-loop-animation"> </a>
+<h2 id="Putting-Together-The-Loop-Animation">
+<a class="anchor" href="#Putting-Together-The-Loop-Animation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Putting Together The Loop Animation<a class="anchor-link" href="#Putting-Together-The-Loop-Animation"> </a>
 </h2>
 <p>Next, we notice from our reference that after the mount animation, we get a loop animation that translates the <code>Swipe up to answer...</code> and the <code>Icon</code> from their layout positions to some pixels up and then back to their original position. We also get the <code>Swipe down to decline...</code> text to fade in and out as this is going on.</p>
 <p>We can wrap our <code>Swipe up to answer...</code> text and <code>Icon</code> in an <code>Animated.View</code> which we would apply the styles to translate back and forth on and then we can interpolate from this to get the opacity of the text <code>Swipe down to decline...</code> to fade in and out.</p>
@@ -661,8 +661,8 @@ This results in:</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Handling-Opacity-of-Texts-when-Swiping">
-<a class="anchor" href="#Handling-Opacity-of-Texts-when-Swiping" aria-hidden="true"><span class="octicon octicon-link"></span></a>Handling Opacity of Texts when Swiping<a class="anchor-link" href="#Handling-Opacity-of-Texts-when-Swiping"> </a>
+<h2 id="Handling-Opacity-Of-Texts-When-Swiping">
+<a class="anchor" href="#Handling-Opacity-Of-Texts-When-Swiping" aria-hidden="true"><span class="octicon octicon-link"></span></a>Handling Opacity Of Texts When Swiping<a class="anchor-link" href="#Handling-Opacity-Of-Texts-When-Swiping"> </a>
 </h2>
 <p>According to the reference, when we start swiping, both the accept text and decline text would fade out. And when the swipe gesture is finished, both the accept text and decline text would fade in. We can achieve this in two ways, either interpolating on the <code>swipe</code> shared value or creating a shared value <code>textOpacity</code> which we can the animate to 0 in the <code>onStart</code> callback, and animate to 1 in the <code>onFinish</code> callback. Both would give similar results, but I prefer the latter.</p>
 <div class="highlight"><pre><span></span><span class="p">...</span>
@@ -1079,7 +1079,7 @@ This results in:</p>
     <span class="p">);</span>
 <span class="p">...</span>
 </pre></div>
-<p>Check <a href="https://github.com/BalogunofAfrica/rn-material-you-animations/blob/main/app/hooks/animation/useIncomingCallAnimation.ts" title="Source Code">here</a> for the refactored code for the custom hook.</p>
+<p>Check <a href="https://github.com/BalogunofAfrica/rn-material-you-animations/blob/main/app/hooks/animation/useIncomingCallAnimation.ts" title="Source Code">here</a> to checkout the refactored code for the custom hook.</p>
 
 </div>
 </div>
