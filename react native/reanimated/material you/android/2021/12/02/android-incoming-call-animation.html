@@ -77,7 +77,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      16 min read
+      17 min read
     
 </span></p>
 
@@ -181,7 +181,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://drive.google.com/uc?export=view&amp;id=1SOfxH-v4wKnG4M2N5qW_6Zx-NPYWnhGx" alt=""></p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1SOfxH-v4wKnG4M2N5qW_6Zx-NPYWnhGx" alt="" title="reference"></p>
 
 </div>
 </div>
@@ -310,7 +310,7 @@ window.onload = wrap_img;
 <span class="kr">export</span> <span class="k">default</span> <span class="nx">IncomingCall</span><span class="p">;</span>
 </pre></div>
 <p>We should get the following on our screen:</p>
-<p><img src="https://drive.google.com/uc?export=view&amp;id=1TMDbg3xSXtEEYcPS2XEUSyLys4eXPrLB" alt="" title="Initial View"></p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1TMDbg3xSXtEEYcPS2XEUSyLys4eXPrLB" alt="" title="skeleton layout"></p>
 <p>Dont worry about the phone icon emoji, it is just a placeholder, we'd be building that later on.</p>
 
 </div>
@@ -390,7 +390,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://drive.google.com/uc?export=view&amp;id=1ltbCsPYnH5IVAZ6zv1RuwYPofWuZ78Mj" alt=""></p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1ltbCsPYnH5IVAZ6zv1RuwYPofWuZ78Mj" alt="" title="mount animation"></p>
 
 </div>
 </div>
@@ -477,7 +477,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://drive.google.com/uc?export=view&amp;id=1lUBtIb74HTXdudYw57z3tJrxsWo837iL" alt=""></p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1lUBtIb74HTXdudYw57z3tJrxsWo837iL" alt="" title="loop animation"></p>
 
 </div>
 </div>
@@ -541,9 +541,7 @@ window.onload = wrap_img;
     <span class="nx">Context</span>
 <span class="o">&gt;</span> <span class="p">({</span>
     <span class="nx">onActive</span><span class="o">:</span><span class="p">({</span> <span class="nx">translationY</span> <span class="p">},</span> <span class="nx">context</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>      
-
-
-
+      <span class="p">...</span>
       <span class="nx">swipe</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">translationY</span> <span class="o">+</span> <span class="nx">context</span><span class="p">.</span><span class="nx">translateY</span><span class="p">;</span>
     <span class="p">},</span>
     <span class="nx">onFinish</span><span class="o">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -580,7 +578,7 @@ window.onload = wrap_img;
 <p>We wrap our icon placeholder with an <code>Animated.View</code> which we would apply the swipe styles to. This makes the icon move with the swipe gesture based on the <code>translationY</code> value we get from the <code>PanGestureHandler</code>.</p>
 <p>The <code>onActive</code> callback is used to get the current value of our swipe translationY on the screen and this is stored in the <code>swipe</code> shared value. The <code>onFinish</code> callback is used to reset the <code>swipe</code> shared value to 0 after the gesture is finished. The <code>onStart</code> callback is used to store the swipe value in a context object, so that we do not start from 0 again when we start a new gesture.</p>
 <p>We should get this on our screen:</p>
-<p><img src="https://drive.google.com/uc?export=view&amp;id=1iLumhnbDvLTL7Bqa7m8XxrwTKGYMu3t7" alt=""></p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1iLumhnbDvLTL7Bqa7m8XxrwTKGYMu3t7" alt="" title="swipe animation"></p>
 <p>However we quickly notice that we can swipe our icon to the very top and very bottom of our screens, this is not what we intended, so we write a <code>clamp</code> worklet function to handle this by limiting the value we assign to the <code>swipe</code> shared value to be between the minimum and maximum we specify.</p>
 <div class="highlight"><pre><span></span><span class="p">...</span>
 <span class="kd">function</span> <span class="nx">clamp</span><span class="p">(</span><span class="kt">number</span><span class="o">:</span> <span class="kt">number</span><span class="p">,</span> <span class="nx">min</span>: <span class="kt">number</span><span class="p">,</span> <span class="nx">max</span>: <span class="kt">number</span><span class="p">)</span> <span class="p">{</span>
@@ -615,7 +613,7 @@ This results in:</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://drive.google.com/uc?export=view&amp;id=1Ekwyn0aIxVlzy59CjTRVPIU6VxDkE6go" alt=""></p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1Ekwyn0aIxVlzy59CjTRVPIU6VxDkE6go" alt="" title="clamped swipe animation"></p>
 
 </div>
 </div>
@@ -651,7 +649,7 @@ This results in:</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://drive.google.com/uc?export=view&amp;id=1YQMqvi2dcPV7vc8ccooUt00KfUVoMPqp" alt=""></p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1YQMqvi2dcPV7vc8ccooUt00KfUVoMPqp" alt="" title="stopping repeat animation on start"></p>
 
 </div>
 </div>
@@ -721,7 +719,7 @@ This results in:</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://drive.google.com/uc?export=view&amp;id=1567eVMdlP4ZNxBghipmAzSSNbPQ6plsm" alt=""></p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1567eVMdlP4ZNxBghipmAzSSNbPQ6plsm" alt="" title="opaqe text animation"></p>
 
 </div>
 </div>
@@ -783,7 +781,7 @@ This results in:</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://drive.google.com/uc?export=view&amp;id=1y8aAVdjZ_z8tpXCziwntgdp6ufuT1dg9" alt=""></p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1y8aAVdjZ_z8tpXCziwntgdp6ufuT1dg9" alt="" title="phone icon added"></p>
 
 </div>
 </div>
@@ -905,14 +903,6 @@ This results in:</p>
 <span class="p">...</span>
 </pre></div>
 <p>This should give us the following result:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://drive.google.com/uc?export=view&amp;id=1G0Z8Uxp1yQ6mmvX4iyZQ4EeemGVH2WMo" alt=""></p>
 
 </div>
 </div>
@@ -1051,7 +1041,7 @@ This results in:</p>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><img src="https://drive.google.com/uc?export=view&amp;id=1-1e0mHoYP_r-Fg29K9l1DY_rAWE06Miu" alt=""></p>
+<p><img src="https://drive.google.com/uc?export=view&amp;id=1-1e0mHoYP_r-Fg29K9l1DY_rAWE06Miu" alt="" title="final result"></p>
 
 </div>
 </div>
