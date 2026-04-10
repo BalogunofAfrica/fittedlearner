@@ -9,6 +9,11 @@ const navItems = [
 
 export function RootLayout() {
   const { theme, toggleTheme } = useThemeMode();
+  const isDarkTheme = theme === 'dark';
+  const toggleLabel = isDarkTheme
+    ? 'Switch to light mode'
+    : 'Switch to dark mode';
+  const iconGlyph = isDarkTheme ? '日' : '月';
 
   return (
     <div className="app-shell">
@@ -33,8 +38,17 @@ export function RootLayout() {
           ))}
         </nav>
 
-        <button type="button" className="theme-toggle" onClick={toggleTheme}>
-          {theme === 'dark' ? 'Dark' : 'Light'} mode
+        <button
+          type="button"
+          className="theme-toggle"
+          onClick={toggleTheme}
+          aria-label={toggleLabel}
+          title={toggleLabel}
+        >
+          <span className="theme-toggle-icon" aria-hidden="true">
+            {iconGlyph}
+          </span>
+          <span className="sr-only">{toggleLabel}</span>
         </button>
       </header>
 

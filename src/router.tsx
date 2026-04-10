@@ -44,8 +44,8 @@ const articlesRoute = createRoute({
 });
 
 const articleDetailRoute = createRoute({
-  getParentRoute: () => articlesRoute,
-  path: '$slug',
+  getParentRoute: () => rootRoute,
+  path: '/articles/$slug',
   loader: ({ params }) => {
     const article = getEntry('articles', params.slug);
     if (!article) {
@@ -64,8 +64,8 @@ const projectsRoute = createRoute({
 });
 
 const projectDetailRoute = createRoute({
-  getParentRoute: () => projectsRoute,
-  path: '$slug',
+  getParentRoute: () => rootRoute,
+  path: '/projects/$slug',
   loader: ({ params }) => {
     const project = getEntry('projects', params.slug);
     if (!project) {
@@ -84,8 +84,8 @@ const readingNotesRoute = createRoute({
 });
 
 const readingDetailRoute = createRoute({
-  getParentRoute: () => readingNotesRoute,
-  path: '$slug',
+  getParentRoute: () => rootRoute,
+  path: '/reading-notes/$slug',
   loader: ({ params }) => {
     const note = getEntry('reading-notes', params.slug);
     if (!note) {
@@ -99,9 +99,12 @@ const readingDetailRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  articlesRoute.addChildren([articleDetailRoute]),
-  projectsRoute.addChildren([projectDetailRoute]),
-  readingNotesRoute.addChildren([readingDetailRoute]),
+  articlesRoute,
+  articleDetailRoute,
+  projectsRoute,
+  projectDetailRoute,
+  readingNotesRoute,
+  readingDetailRoute,
 ]);
 
 export const router = createRouter({
