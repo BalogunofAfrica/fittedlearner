@@ -1,4 +1,5 @@
 import { Link, Outlet } from '@tanstack/react-router';
+import { useState } from 'react';
 import { useThemeMode } from '../lib/theme';
 
 const navItems = [
@@ -8,12 +9,17 @@ const navItems = [
 ];
 
 export function RootLayout() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useThemeMode();
   const isDarkTheme = theme === 'dark';
   const toggleLabel = isDarkTheme
     ? 'Switch to light mode'
     : 'Switch to dark mode';
   const iconGlyph = isDarkTheme ? '日' : '月';
+  const mobileMenuLabel = isMobileMenuOpen
+    ? 'Close navigation menu'
+    : 'Open navigation menu';
+  const mobileMenuGlyph = isMobileMenuOpen ? '閉' : 'メ';
 
   return (
     <div className="app-shell">
@@ -23,12 +29,19 @@ export function RootLayout() {
           <span className="site-brand-text">fitted learner</span>
         </Link>
 
-        <nav className="site-nav" aria-label="Primary">
+        <nav
+          id="primary-navigation"
+          className={`site-nav${isMobileMenuOpen ? ' is-open' : ''}`}
+          aria-label="Primary"
+        >
           {navItems.map((item) => (
             <Link
               key={item.to}
               to={item.to}
               className="nav-link"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+              }}
               activeProps={{
                 'aria-current': 'page',
               }}
@@ -38,19 +51,49 @@ export function RootLayout() {
           ))}
         </nav>
 
+        <div className="header-controls">
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={toggleLabel}
+            title={toggleLabel}
+          >
+            <span className="theme-toggle-icon" aria-hidden="true">
+              {iconGlyph}
+            </span>
+            <span className="sr-only">{toggleLabel}</span>
+          </button>
+
+          <button
+            type="button"
+            className="menu-toggle"
+            onClick={() => {
+              setIsMobileMenuOpen((previousState) => !previousState);
+            }}
+            aria-controls="primary-navigation"
+            aria-expanded={isMobileMenuOpen}
+            aria-label={mobileMenuLabel}
+            title={mobileMenuLabel}
+          >
+            <span className="menu-toggle-icon" aria-hidden="true">
+              {mobileMenuGlyph}
+            </span>
+            <span className="sr-only">{mobileMenuLabel}</span>
+          </button>
+        </div>
+      </header>
+
+      {isMobileMenuOpen ? (
         <button
           type="button"
-          className="theme-toggle"
-          onClick={toggleTheme}
-          aria-label={toggleLabel}
-          title={toggleLabel}
-        >
-          <span className="theme-toggle-icon" aria-hidden="true">
-            {iconGlyph}
-          </span>
-          <span className="sr-only">{toggleLabel}</span>
-        </button>
-      </header>
+          className="menu-backdrop"
+          onClick={() => {
+            setIsMobileMenuOpen(false);
+          }}
+          aria-label="Close navigation menu"
+        />
+      ) : null}
 
       <main className="site-main">
         <Outlet />
