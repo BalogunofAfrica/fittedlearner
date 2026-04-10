@@ -5,16 +5,22 @@ import {
   createRouter,
   notFound,
 } from '@tanstack/react-router';
-import { getEntry } from './lib/content';
+import {
+  getPrimaryEntry,
+  getProjectNote,
+  getReadingListNote,
+} from './lib/content';
 import { RootLayout } from './views/root-layout';
 import {
   ArticleDetailPage,
   ArticlesPage,
   HomePage,
+  ProjectNoteDetailPage,
   ProjectDetailPage,
   ProjectsPage,
-  ReadingDetailPage,
-  ReadingNotesPage,
+  ReadingListDetailPage,
+  ReadingListNoteDetailPage,
+  ReadingListPage,
 } from './views/pages';
 
 const rootRoute = createRootRoute({
@@ -47,7 +53,7 @@ const articleDetailRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/articles/$slug',
   loader: ({ params }) => {
-    const article = getEntry('articles', params.slug);
+    const article = getPrimaryEntry('articles', params.slug);
     if (!article) {
       throw notFound();
     }
@@ -67,7 +73,7 @@ const projectDetailRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/projects/$slug',
   loader: ({ params }) => {
-    const project = getEntry('projects', params.slug);
+    const project = getPrimaryEntry('projects', params.slug);
     if (!project) {
       throw notFound();
     }
@@ -77,24 +83,60 @@ const projectDetailRoute = createRoute({
   component: ProjectDetailRouteComponent,
 });
 
-const readingNotesRoute = createRoute({
+const projectNoteDetailRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/reading-notes',
-  component: ReadingNotesPage,
-});
-
-const readingDetailRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/reading-notes/$slug',
+  path: '/projects/$slug/notes/$noteSlug',
   loader: ({ params }) => {
-    const note = getEntry('reading-notes', params.slug);
-    if (!note) {
+    const project = getPrimaryEntry('projects', params.slug);
+    const note = getProjectNote(params.slug, params.noteSlug);
+    if (!project || !note) {
       throw notFound();
     }
 
-    return note;
+    return {
+      project,
+      note,
+    };
   },
-  component: ReadingDetailRouteComponent,
+  component: ProjectNoteDetailRouteComponent,
+});
+
+const readingListRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/reading-list',
+  component: ReadingListPage,
+});
+
+const readingListDetailRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/reading-list/$slug',
+  loader: ({ params }) => {
+    const entry = getPrimaryEntry('reading-list', params.slug);
+    if (!entry) {
+      throw notFound();
+    }
+
+    return entry;
+  },
+  component: ReadingListDetailRouteComponent,
+});
+
+const readingListNoteDetailRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/reading-list/$slug/notes/$noteSlug',
+  loader: ({ params }) => {
+    const item = getPrimaryEntry('reading-list', params.slug);
+    const note = getReadingListNote(params.slug, params.noteSlug);
+    if (!item || !note) {
+      throw notFound();
+    }
+
+    return {
+      item,
+      note,
+    };
+  },
+  component: ReadingListNoteDetailRouteComponent,
 });
 
 const routeTree = rootRoute.addChildren([
@@ -103,8 +145,10 @@ const routeTree = rootRoute.addChildren([
   articleDetailRoute,
   projectsRoute,
   projectDetailRoute,
-  readingNotesRoute,
-  readingDetailRoute,
+  projectNoteDetailRoute,
+  readingListRoute,
+  readingListDetailRoute,
+  readingListNoteDetailRoute,
 ]);
 
 export const router = createRouter({
@@ -123,9 +167,19 @@ function ProjectDetailRouteComponent() {
   return <ProjectDetailPage entry={project} />;
 }
 
-function ReadingDetailRouteComponent() {
-  const note = readingDetailRoute.useLoaderData();
-  return <ReadingDetailPage entry={note} />;
+function ProjectNoteDetailRouteComponent() {
+  const data = projectNoteDetailRoute.useLoaderData();
+  return <ProjectNoteDetailPage parent={data.project} note={data.note} />;
+}
+
+function ReadingListDetailRouteComponent() {
+  const entry = readingListDetailRoute.useLoaderData();
+  return <ReadingListDetailPage entry={entry} />;
+}
+
+function ReadingListNoteDetailRouteComponent() {
+  const data = readingListNoteDetailRoute.useLoaderData();
+  return <ReadingListNoteDetailPage parent={data.item} note={data.note} />;
 }
 
 declare module '@tanstack/react-router' {

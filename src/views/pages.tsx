@@ -1,43 +1,80 @@
 import { Link } from '@tanstack/react-router';
 import ReactMarkdown from 'react-markdown';
 import { formatDate } from '../lib/date';
-import { ContentEntry, ContentKind, getCollection, getLatestEntries } from '../lib/content';
+import {
+  ContentEntry,
+  PrimaryContentKind,
+  getLatestPrimaryEntries,
+  getPrimaryCollection,
+  getProjectArticles,
+  getProjectNotes,
+  getReadingListNotes,
+} from '../lib/content';
 
-const detailRouteByKind: Record<ContentKind, '/articles/$slug' | '/projects/$slug' | '/reading-notes/$slug'> = {
+const primaryDetailRouteByKind: Record<
+  PrimaryContentKind,
+  '/articles/$slug' | '/projects/$slug' | '/reading-list/$slug'
+> = {
   articles: '/articles/$slug',
   projects: '/projects/$slug',
-  'reading-notes': '/reading-notes/$slug',
+  'reading-list': '/reading-list/$slug',
 };
 
-const collectionRouteByKind: Record<ContentKind, '/articles' | '/projects' | '/reading-notes'> = {
+const collectionRouteByKind: Record<
+  PrimaryContentKind,
+  '/articles' | '/projects' | '/reading-list'
+> = {
   articles: '/articles',
   projects: '/projects',
-  'reading-notes': '/reading-notes',
+  'reading-list': '/reading-list',
 };
 
-const sectionTitleByKind: Record<ContentKind, string> = {
+const sectionTitleByKind: Record<PrimaryContentKind, string> = {
   articles: 'Articles',
   projects: 'Projects',
-  'reading-notes': 'Reading Notes',
+  'reading-list': 'Reading List',
 };
 
-const singularTitleByKind: Record<ContentKind, string> = {
+const sectionTaglineByKind: Record<PrimaryContentKind, string> = {
+  articles: 'Essays and practical notes from shipping work.',
+  projects: 'Projects with links and optional build notes.',
+  'reading-list': 'Books and resources, with optional notes per item.',
+};
+
+const singularTitleByKind: Record<PrimaryContentKind, string> = {
   articles: 'article',
   projects: 'project',
-  'reading-notes': 'reading note',
+  'reading-list': 'reading list item',
 };
 
-const sectionTaglineByKind: Record<ContentKind, string> = {
-  articles: 'Essays and practical notes from shipping work.',
-  projects: 'Selected builds with outcomes and lessons.',
-  'reading-notes': 'Short takes from books and long-form writing.',
-};
+interface HomeCollectionPreviewProps {
+  kind: PrimaryContentKind;
+  entries: ContentEntry[];
+  ctaLabel: string;
+}
+
+interface DetailPageProps {
+  entry: ContentEntry;
+}
+
+interface NoteDetailPageProps {
+  parent: ContentEntry;
+  note: ContentEntry;
+}
+
+type ParentWithNotesKind = 'projects' | 'reading-list';
+
+interface NoteListProps {
+  notes: ContentEntry[];
+  parent: ContentEntry;
+  parentKind: ParentWithNotesKind;
+}
 
 export function HomePage() {
-  const latestEntries = getLatestEntries(6);
-  const projects = getCollection('projects').slice(0, 3);
-  const articles = getCollection('articles').slice(0, 3);
-  const readingNotes = getCollection('reading-notes').slice(0, 3);
+  const latestEntries = getLatestPrimaryEntries(6);
+  const projects = getPrimaryCollection('projects').slice(0, 3);
+  const articles = getPrimaryCollection('articles').slice(0, 3);
+  const readingList = getPrimaryCollection('reading-list').slice(0, 3);
 
   return (
     <div className="home-page">
@@ -46,7 +83,8 @@ export function HomePage() {
         <h1>Calm corner for projects, ideas, and reading reflections.</h1>
         <p className="hero-copy">
           A minimalist writing space inspired by Japanese editorial aesthetics. Add
-          new content by dropping markdown files into one of three content folders.
+          markdown items for projects or reading list entries, then optionally attach
+          as many notes as you like.
         </p>
       </section>
 
@@ -74,18 +112,12 @@ export function HomePage() {
         ctaLabel="View all articles"
       />
       <HomeCollectionPreview
-        kind="reading-notes"
-        entries={readingNotes}
-        ctaLabel="View all reading notes"
+        kind="reading-list"
+        entries={readingList}
+        ctaLabel="View full reading list"
       />
     </div>
   );
-}
-
-interface HomeCollectionPreviewProps {
-  kind: ContentKind;
-  entries: ContentEntry[];
-  ctaLabel: string;
 }
 
 function HomeCollectionPreview({ kind, entries, ctaLabel }: HomeCollectionPreviewProps) {
@@ -113,18 +145,19 @@ function HomeCollectionPreview({ kind, entries, ctaLabel }: HomeCollectionPrevie
 }
 
 function EntryCard({ entry }: { entry: ContentEntry }) {
+  const kind = entry.kind as PrimaryContentKind;
+
   return (
     <article className="entry-card">
       <p className="entry-meta">
-        {sectionTitleByKind[entry.kind]} ·{' '}
-        <time dateTime={entry.date}>{formatDate(entry.date)}</time>
+        {sectionTitleByKind[kind]} · <time dateTime={entry.date}>{formatDate(entry.date)}</time>
       </p>
       <h3>
         <Link
-          to={detailRouteByKind[entry.kind]}
+          to={primaryDetailRouteByKind[kind]}
           params={{ slug: entry.slug }}
           className="entry-title-link"
-          aria-label={`Read ${singularTitleByKind[entry.kind]}: ${entry.title}`}
+          aria-label={`Read ${singularTitleByKind[kind]}: ${entry.title}`}
         >
           {entry.title}
         </Link>
@@ -141,12 +174,8 @@ function EntryCard({ entry }: { entry: ContentEntry }) {
   );
 }
 
-interface CollectionPageProps {
-  kind: ContentKind;
-}
-
-function CollectionPage({ kind }: CollectionPageProps) {
-  const entries = getCollection(kind);
+function CollectionPage({ kind }: { kind: PrimaryContentKind }) {
+  const entries = getPrimaryCollection(kind);
 
   return (
     <section className="collection-page">
@@ -163,19 +192,99 @@ function CollectionPage({ kind }: CollectionPageProps) {
   );
 }
 
-interface EntryDetailPageProps {
-  entry: ContentEntry;
+function NotesList({ notes, parent, parentKind }: NoteListProps) {
+  if (!notes.length) {
+    return (
+      <p className="note-empty">
+        No notes yet. Add a markdown file in the notes folder to attach one.
+      </p>
+    );
+  }
+
+  return (
+    <ul className="note-list">
+      {notes.map((note) => (
+        <li key={note.slug} className="note-item">
+          {parentKind === 'projects' ? (
+            <Link
+              to="/projects/$slug/notes/$noteSlug"
+              params={{ slug: parent.slug, noteSlug: note.slug }}
+              className="note-link"
+              aria-label={`Open project note: ${note.title}`}
+            >
+              {note.title}
+            </Link>
+          ) : (
+            <Link
+              to="/reading-list/$slug/notes/$noteSlug"
+              params={{ slug: parent.slug, noteSlug: note.slug }}
+              className="note-link"
+              aria-label={`Open reading note: ${note.title}`}
+            >
+              {note.title}
+            </Link>
+          )}
+          <p>{note.summary}</p>
+          <p className="note-date">
+            <time dateTime={note.date}>{formatDate(note.date)}</time>
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
-function EntryDetail({ entry }: EntryDetailPageProps) {
+function ProjectArticlesList({ articles }: { articles: ContentEntry[] }) {
+  if (!articles.length) {
+    return <p className="note-empty">No linked articles yet.</p>;
+  }
+
+  return (
+    <ul className="note-list">
+      {articles.map((article) => (
+        <li key={article.slug} className="note-item">
+          <Link
+            to="/articles/$slug"
+            params={{ slug: article.slug }}
+            className="note-link"
+            aria-label={`Open article: ${article.title}`}
+          >
+            {article.title}
+          </Link>
+          <p>{article.summary}</p>
+          <p className="note-date">
+            <time dateTime={article.date}>{formatDate(article.date)}</time>
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function ItemDetailPage({ entry }: DetailPageProps) {
+  const kind = entry.kind as PrimaryContentKind;
   const relatedLinks = getRelatedLinks(entry);
+  const primaryLink = getPrimaryLink(entry);
   const displayMetadata = Object.entries(entry.metadata).filter(
     ([key, value]) => !isLikelyLink(value) && key !== 'status'
   );
 
+  const notes =
+    kind === 'projects'
+      ? getProjectNotes(entry.slug)
+      : kind === 'reading-list'
+        ? getReadingListNotes(entry.slug)
+        : [];
+  const projectArticles =
+    kind === 'projects' ? getProjectArticles(entry.slug) : [];
+
+  const secondaryLinks = primaryLink
+    ? relatedLinks.filter((link) => link.href !== primaryLink.href)
+    : relatedLinks;
+
   return (
     <article className="detail-page">
-      <p className="eyebrow">{sectionTitleByKind[entry.kind]}</p>
+      <p className="eyebrow">{sectionTitleByKind[kind]}</p>
       <h1>{entry.title}</h1>
       <p className="detail-meta">
         <time dateTime={entry.date}>{formatDate(entry.date)}</time>
@@ -193,6 +302,116 @@ function EntryDetail({ entry }: EntryDetailPageProps) {
         {entry.metadata.status ? (
           <p className="status-pill">Status: {entry.metadata.status}</p>
         ) : null}
+
+        {displayMetadata.length ? (
+          <dl className="metadata-grid">
+            {displayMetadata.map(([key, value]) => (
+              <div key={key}>
+                <dt>{readableMetadataKey(key)}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
+
+        {primaryLink ? (
+          <a
+            href={primaryLink.href}
+            target="_blank"
+            rel="noreferrer"
+            className="detail-primary-link"
+            aria-label={`${primaryLink.label} (opens in a new tab)`}
+          >
+            {primaryLink.label}
+          </a>
+        ) : kind === 'projects' ? (
+          <p className="note-empty">Add a `url`, `demo`, or `repo` link to this project.</p>
+        ) : null}
+
+        {secondaryLinks.length ? (
+          <div className="detail-links">
+            {secondaryLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${link.label} (opens in a new tab)`}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        ) : null}
+      </div>
+
+      <div className="markdown-body">
+        <ReactMarkdown>{entry.body}</ReactMarkdown>
+      </div>
+
+      {kind === 'projects' || kind === 'reading-list' ? (
+        <section className="note-section">
+          <h2>{kind === 'projects' ? 'Project Notes' : 'Reading Notes'}</h2>
+          <NotesList
+            notes={notes}
+            parent={entry}
+            parentKind={kind as ParentWithNotesKind}
+          />
+        </section>
+      ) : null}
+
+      {kind === 'projects' ? (
+        <section className="note-section">
+          <h2>Related Articles</h2>
+          <ProjectArticlesList articles={projectArticles} />
+        </section>
+      ) : null}
+
+      <Link to={collectionRouteByKind[kind]} className="detail-back-link">
+        Back to {sectionTitleByKind[kind]}
+      </Link>
+    </article>
+  );
+}
+
+function NoteDetailPage({ parent, note }: NoteDetailPageProps) {
+  const parentKind = parent.kind as ParentWithNotesKind;
+  const relatedLinks = getRelatedLinks(note);
+  const displayMetadata = Object.entries(note.metadata).filter(
+    ([, value]) => !isLikelyLink(value)
+  );
+
+  return (
+    <article className="detail-page">
+      <p className="eyebrow">
+        {sectionTitleByKind[parentKind]} · Note
+      </p>
+      <h1>{note.title}</h1>
+      <p className="detail-meta">
+        <time dateTime={note.date}>{formatDate(note.date)}</time>
+      </p>
+
+      <p className="note-parent-line">
+        Attached to:{' '}
+        {parentKind === 'projects' ? (
+          <Link to="/projects/$slug" params={{ slug: parent.slug }} className="inline-link">
+            {parent.title}
+          </Link>
+        ) : (
+          <Link to="/reading-list/$slug" params={{ slug: parent.slug }} className="inline-link">
+            {parent.title}
+          </Link>
+        )}
+      </p>
+
+      <div className="detail-supporting">
+        <div className="entry-tags">
+          {note.tags.map((tag) => (
+            <span key={tag} className="entry-tag">
+              {tag}
+            </span>
+          ))}
+        </div>
 
         {displayMetadata.length ? (
           <dl className="metadata-grid">
@@ -223,18 +442,52 @@ function EntryDetail({ entry }: EntryDetailPageProps) {
       </div>
 
       <div className="markdown-body">
-        <ReactMarkdown>{entry.body}</ReactMarkdown>
+        <ReactMarkdown>{note.body}</ReactMarkdown>
       </div>
 
-      <Link to={collectionRouteByKind[entry.kind]} className="detail-back-link">
-        Back to {sectionTitleByKind[entry.kind]}
-      </Link>
+      {parentKind === 'projects' ? (
+        <Link to="/projects/$slug" params={{ slug: parent.slug }} className="detail-back-link">
+          Back to {parent.title}
+        </Link>
+      ) : (
+        <Link to="/reading-list/$slug" params={{ slug: parent.slug }} className="detail-back-link">
+          Back to {parent.title}
+        </Link>
+      )}
     </article>
   );
 }
 
+function getPrimaryLink(entry: ContentEntry) {
+  const optionsByKind: Partial<Record<PrimaryContentKind, string[]>> = {
+    projects: ['url', 'demo', 'repo'],
+    'reading-list': ['url', 'source', 'buy'],
+  };
+  const labels: Record<string, string> = {
+    url: entry.kind === 'projects' ? 'Visit project' : 'Open resource',
+    demo: 'Live demo',
+    repo: 'Repository',
+    source: 'Source',
+    buy: 'Buy book',
+  };
+
+  const keys = optionsByKind[entry.kind as PrimaryContentKind] ?? [];
+  for (const key of keys) {
+    const value = entry.metadata[key];
+    if (value && isLikelyLink(value)) {
+      return {
+        label: labels[key] ?? 'Open link',
+        href: value,
+      };
+    }
+  }
+
+  return null;
+}
+
 function getRelatedLinks(entry: ContentEntry) {
   const labels: Record<string, string> = {
+    url: entry.kind === 'projects' ? 'Project URL' : 'Resource URL',
     repo: 'Repository',
     demo: 'Live demo',
     source: 'Source',
@@ -268,18 +521,26 @@ export function ProjectsPage() {
   return <CollectionPage kind="projects" />;
 }
 
-export function ReadingNotesPage() {
-  return <CollectionPage kind="reading-notes" />;
+export function ReadingListPage() {
+  return <CollectionPage kind="reading-list" />;
 }
 
-export function ArticleDetailPage({ entry }: EntryDetailPageProps) {
-  return <EntryDetail entry={entry} />;
+export function ArticleDetailPage({ entry }: DetailPageProps) {
+  return <ItemDetailPage entry={entry} />;
 }
 
-export function ProjectDetailPage({ entry }: EntryDetailPageProps) {
-  return <EntryDetail entry={entry} />;
+export function ProjectDetailPage({ entry }: DetailPageProps) {
+  return <ItemDetailPage entry={entry} />;
 }
 
-export function ReadingDetailPage({ entry }: EntryDetailPageProps) {
-  return <EntryDetail entry={entry} />;
+export function ReadingListDetailPage({ entry }: DetailPageProps) {
+  return <ItemDetailPage entry={entry} />;
+}
+
+export function ProjectNoteDetailPage({ parent, note }: NoteDetailPageProps) {
+  return <NoteDetailPage parent={parent} note={note} />;
+}
+
+export function ReadingListNoteDetailPage({ parent, note }: NoteDetailPageProps) {
+  return <NoteDetailPage parent={parent} note={note} />;
 }

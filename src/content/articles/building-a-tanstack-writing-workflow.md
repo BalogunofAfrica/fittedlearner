@@ -3,6 +3,7 @@ title: Building a TanStack Writing Workflow
 summary: How this blog balances calm design with fast publishing.
 date: 2026-04-09
 tags: react, tanstack, workflow
+project: fittedlearner-blog-engine
 ---
 
 I wanted this site to feel like a quiet studio, not a dashboard. The build starts with

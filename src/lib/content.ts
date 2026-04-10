@@ -1,4 +1,11 @@
-export type ContentKind = 'articles' | 'projects' | 'reading-notes';
+export type ContentKind =
+  | 'articles'
+  | 'projects'
+  | 'reading-list'
+  | 'project-notes'
+  | 'reading-list-notes';
+
+export type PrimaryContentKind = 'articles' | 'projects' | 'reading-list';
 
 export interface ContentEntry {
   slug: string;
@@ -9,6 +16,7 @@ export interface ContentEntry {
   body: string;
   kind: ContentKind;
   metadata: Record<string, string>;
+  parentSlug?: string;
 }
 
 interface ParsedFrontmatter {
@@ -35,11 +43,28 @@ const contentSourceMap: Record<ContentKind, Record<string, string>> = {
     import: 'default',
     query: '?raw',
   }) as Record<string, string>,
-  'reading-notes': import.meta.glob('../content/reading-notes/*.md', {
+  'reading-list': import.meta.glob('../content/reading-list/*.md', {
     eager: true,
     import: 'default',
     query: '?raw',
   }) as Record<string, string>,
+  'project-notes': import.meta.glob('../content/project-notes/*.md', {
+    eager: true,
+    import: 'default',
+    query: '?raw',
+  }) as Record<string, string>,
+  'reading-list-notes': import.meta.glob('../content/reading-list-notes/*.md', {
+    eager: true,
+    import: 'default',
+    query: '?raw',
+  }) as Record<string, string>,
+};
+
+const primaryKinds: PrimaryContentKind[] = ['articles', 'projects', 'reading-list'];
+
+const noteParentFieldByKind: Partial<Record<ContentKind, 'project' | 'item'>> = {
+  'project-notes': 'project',
+  'reading-list-notes': 'item',
 };
 
 const cachedCollections = buildCollections();
@@ -73,6 +98,11 @@ function parseEntry(kind: ContentKind, path: string, rawMarkdown: string): Conte
       ([key]) => !reservedMetadataFields.has(key)
     )
   );
+  const parentField = noteParentFieldByKind[kind];
+  const parentSlug = parentField ? parsed.metadata[parentField] : undefined;
+  if (parentField) {
+    delete metadata[parentField];
+  }
 
   return {
     slug,
@@ -83,6 +113,7 @@ function parseEntry(kind: ContentKind, path: string, rawMarkdown: string): Conte
     tags: parseTags(parsed.metadata.tags),
     body: parsed.body,
     metadata,
+    parentSlug,
   };
 }
 
@@ -158,8 +189,46 @@ export function getEntry(kind: ContentKind, slug: string) {
   return cachedCollections[kind].find((entry) => entry.slug === slug);
 }
 
-export function getLatestEntries(limit = 6) {
-  return (Object.keys(cachedCollections) as ContentKind[])
+export function getPrimaryCollection(kind: PrimaryContentKind) {
+  return cachedCollections[kind];
+}
+
+export function getPrimaryEntry(kind: PrimaryContentKind, slug: string) {
+  return cachedCollections[kind].find((entry) => entry.slug === slug);
+}
+
+export function getProjectNotes(projectSlug: string) {
+  return cachedCollections['project-notes'].filter(
+    (note) => note.parentSlug === projectSlug
+  );
+}
+
+export function getProjectArticles(projectSlug: string) {
+  return cachedCollections.articles.filter(
+    (article) => article.metadata.project === projectSlug
+  );
+}
+
+export function getProjectNote(projectSlug: string, noteSlug: string) {
+  return cachedCollections['project-notes'].find(
+    (note) => note.parentSlug === projectSlug && note.slug === noteSlug
+  );
+}
+
+export function getReadingListNotes(itemSlug: string) {
+  return cachedCollections['reading-list-notes'].filter(
+    (note) => note.parentSlug === itemSlug
+  );
+}
+
+export function getReadingListNote(itemSlug: string, noteSlug: string) {
+  return cachedCollections['reading-list-notes'].find(
+    (note) => note.parentSlug === itemSlug && note.slug === noteSlug
+  );
+}
+
+export function getLatestPrimaryEntries(limit = 6) {
+  return primaryKinds
     .flatMap((kind) => cachedCollections[kind])
     .sort((entryA, entryB) => {
       const timestampA = new Date(entryA.date).getTime();

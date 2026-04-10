@@ -4,6 +4,7 @@ summary: A lightweight dashboard for tracking product health metrics.
 date: 2026-02-18
 tags: dashboard, analytics, frontend
 status: Paused
+url: https://example.com/minimal-portfolio-analytics
 repo: https://github.com/example/minimal-portfolio-analytics
 ---
 

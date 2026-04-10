@@ -5,7 +5,7 @@ import { useThemeMode } from '../lib/theme';
 const navItems = [
   { label: 'Projects', to: '/projects' },
   { label: 'Articles', to: '/articles' },
-  { label: 'Reading Notes', to: '/reading-notes' },
+  { label: 'Reading List', to: '/reading-list' },
 ];
 
 export function RootLayout() {
