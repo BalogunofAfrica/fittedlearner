@@ -181,44 +181,46 @@ function EntryDetail({ entry }: EntryDetailPageProps) {
         <time dateTime={entry.date}>{formatDate(entry.date)}</time>
       </p>
 
-      <div className="entry-tags">
-        {entry.tags.map((tag) => (
-          <span key={tag} className="entry-tag">
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      {entry.metadata.status ? (
-        <p className="status-pill">Status: {entry.metadata.status}</p>
-      ) : null}
-
-      {displayMetadata.length ? (
-        <dl className="metadata-grid">
-          {displayMetadata.map(([key, value]) => (
-            <div key={key}>
-              <dt>{readableMetadataKey(key)}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-      ) : null}
-
-      {relatedLinks.length ? (
-        <div className="detail-links">
-          {relatedLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${link.label} (opens in a new tab)`}
-            >
-              {link.label}
-            </a>
+      <div className="detail-supporting">
+        <div className="entry-tags">
+          {entry.tags.map((tag) => (
+            <span key={tag} className="entry-tag">
+              {tag}
+            </span>
           ))}
         </div>
-      ) : null}
+
+        {entry.metadata.status ? (
+          <p className="status-pill">Status: {entry.metadata.status}</p>
+        ) : null}
+
+        {displayMetadata.length ? (
+          <dl className="metadata-grid">
+            {displayMetadata.map(([key, value]) => (
+              <div key={key}>
+                <dt>{readableMetadataKey(key)}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
+
+        {relatedLinks.length ? (
+          <div className="detail-links">
+            {relatedLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`${link.label} (opens in a new tab)`}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        ) : null}
+      </div>
 
       <div className="markdown-body">
         <ReactMarkdown>{entry.body}</ReactMarkdown>

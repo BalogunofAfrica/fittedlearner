@@ -353,6 +353,7 @@ button:focus-visible {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
+  align-items: stretch;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -360,6 +361,7 @@ button:focus-visible {
 
 .entry-grid-item {
   margin: 0;
+  display: flex;
 }
 
 .entry-card {
@@ -367,8 +369,11 @@ button:focus-visible {
   border-radius: 16px;
   padding: 1rem;
   background: var(--surface);
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 0.6rem;
+  width: 100%;
+  min-height: 100%;
   animation: rise-in 320ms ease both;
 }
 
@@ -398,6 +403,10 @@ button:focus-visible {
 .entry-title-link:hover {
   color: var(--accent);
   text-decoration-color: currentColor;
+}
+
+.entry-card > .entry-tags {
+  margin-top: auto;
 }
 
 .entry-tags {
@@ -434,6 +443,12 @@ button:focus-visible {
   color: var(--text-secondary);
 }
 
+.detail-supporting {
+  display: grid;
+  gap: 0.7rem;
+  margin-bottom: 1.1rem;
+}
+
 .status-pill {
   display: inline-flex;
   border-radius: 999px;
@@ -441,14 +456,14 @@ button:focus-visible {
   color: var(--text-primary);
   padding: 0.3rem 0.65rem;
   font-size: 0.78rem;
-  margin-bottom: 1rem;
+  margin: 0;
 }
 
 .metadata-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 0.6rem 1rem;
-  margin: 0 0 1rem;
+  margin: 0;
 }
 
 .metadata-grid div {
@@ -471,7 +486,7 @@ button:focus-visible {
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem;
-  margin-bottom: 1.2rem;
+  margin: 0;
 }
 
 .detail-links a {
