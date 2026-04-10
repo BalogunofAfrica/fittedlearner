@@ -21,6 +21,12 @@ const sectionTitleByKind: Record<ContentKind, string> = {
   'reading-notes': 'Reading Notes',
 };
 
+const singularTitleByKind: Record<ContentKind, string> = {
+  articles: 'article',
+  projects: 'project',
+  'reading-notes': 'reading note',
+};
+
 const sectionTaglineByKind: Record<ContentKind, string> = {
   articles: 'Essays and practical notes from shipping work.',
   projects: 'Selected builds with outcomes and lessons.',
@@ -48,11 +54,13 @@ export function HomePage() {
         <div className="section-head">
           <h2>Latest updates</h2>
         </div>
-        <div className="entry-grid">
+        <ul className="entry-grid">
           {latestEntries.map((entry) => (
-            <EntryCard key={`${entry.kind}-${entry.slug}`} entry={entry} />
+            <li key={`${entry.kind}-${entry.slug}`} className="entry-grid-item">
+              <EntryCard entry={entry} />
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       <HomeCollectionPreview
@@ -93,11 +101,13 @@ function HomeCollectionPreview({ kind, entries, ctaLabel }: HomeCollectionPrevie
         </Link>
       </div>
 
-      <div className="entry-grid">
+      <ul className="entry-grid">
         {entries.map((entry) => (
-          <EntryCard key={`${entry.kind}-${entry.slug}`} entry={entry} />
+          <li key={`${entry.kind}-${entry.slug}`} className="entry-grid-item">
+            <EntryCard entry={entry} />
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
@@ -106,13 +116,15 @@ function EntryCard({ entry }: { entry: ContentEntry }) {
   return (
     <article className="entry-card">
       <p className="entry-meta">
-        {sectionTitleByKind[entry.kind]} · {formatDate(entry.date)}
+        {sectionTitleByKind[entry.kind]} ·{' '}
+        <time dateTime={entry.date}>{formatDate(entry.date)}</time>
       </p>
       <h3>
         <Link
           to={detailRouteByKind[entry.kind]}
           params={{ slug: entry.slug }}
           className="entry-title-link"
+          aria-label={`Read ${singularTitleByKind[entry.kind]}: ${entry.title}`}
         >
           {entry.title}
         </Link>
@@ -140,11 +152,13 @@ function CollectionPage({ kind }: CollectionPageProps) {
     <section className="collection-page">
       <p className="eyebrow">{sectionTitleByKind[kind]}</p>
       <h1>{sectionTaglineByKind[kind]}</h1>
-      <div className="entry-grid">
+      <ul className="entry-grid">
         {entries.map((entry) => (
-          <EntryCard key={`${entry.kind}-${entry.slug}`} entry={entry} />
+          <li key={`${entry.kind}-${entry.slug}`} className="entry-grid-item">
+            <EntryCard entry={entry} />
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
   );
 }
@@ -163,7 +177,9 @@ function EntryDetail({ entry }: EntryDetailPageProps) {
     <article className="detail-page">
       <p className="eyebrow">{sectionTitleByKind[entry.kind]}</p>
       <h1>{entry.title}</h1>
-      <p className="detail-meta">{formatDate(entry.date)}</p>
+      <p className="detail-meta">
+        <time dateTime={entry.date}>{formatDate(entry.date)}</time>
+      </p>
 
       <div className="entry-tags">
         {entry.tags.map((tag) => (
@@ -191,7 +207,13 @@ function EntryDetail({ entry }: EntryDetailPageProps) {
       {relatedLinks.length ? (
         <div className="detail-links">
           {relatedLinks.map((link) => (
-            <a key={link.href} href={link.href} target="_blank" rel="noreferrer">
+            <a
+              key={link.href}
+              href={link.href}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${link.label} (opens in a new tab)`}
+            >
               {link.label}
             </a>
           ))}

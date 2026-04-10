@@ -95,10 +95,34 @@ a {
   text-decoration: none;
 }
 
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .app-shell {
   width: min(1120px, 92vw);
   margin: 0 auto;
   padding: 1.75rem 0 3.5rem;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.7rem;
+  left: 50%;
+  z-index: 120;
+  padding: 0.4rem 0.78rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-strong);
+  color: var(--text-primary);
+  transform: translate(-50%, -160%);
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus-visible {
+  transform: translate(-50%, 0);
 }
 
 .site-header {
@@ -314,17 +338,28 @@ a {
 .inline-link {
   color: var(--accent);
   font-size: 0.92rem;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.14em;
   border-bottom: 1px solid transparent;
 }
 
 .inline-link:hover {
-  border-bottom-color: currentColor;
+  border-bottom-color: transparent;
+  text-decoration-color: currentColor;
 }
 
 .entry-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry-grid-item {
+  margin: 0;
 }
 
 .entry-card {
@@ -467,6 +502,16 @@ a {
 .markdown-body p,
 .markdown-body li {
   color: var(--text-primary);
+}
+
+.markdown-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.markdown-body a:hover {
+  text-decoration-thickness: 2px;
 }
 
 .markdown-body code {
@@ -626,5 +671,16 @@ a {
 
   .site-nav {
     width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

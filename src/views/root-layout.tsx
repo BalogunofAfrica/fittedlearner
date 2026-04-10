@@ -1,5 +1,5 @@
 import { Link, Outlet } from '@tanstack/react-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useThemeMode } from '../lib/theme';
 
 const navItems = [
@@ -21,10 +21,43 @@ export function RootLayout() {
     : 'Open navigation menu';
   const mobileMenuGlyph = isMobileMenuOpen ? '閉' : 'メ';
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      document.body.style.removeProperty('overflow');
+      return;
+    }
+
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.removeProperty('overflow');
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <div className="app-shell">
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+
       <header className="site-header">
-        <Link to="/" className="site-brand">
+        <Link to="/" className="site-brand" aria-label="Go to homepage">
           <span className="site-brand-mark">文</span>
           <span className="site-brand-text">fitted learner</span>
         </Link>
@@ -95,7 +128,7 @@ export function RootLayout() {
         />
       ) : null}
 
-      <main className="site-main">
+      <main id="main-content" className="site-main" tabIndex={-1}>
         <Outlet />
       </main>
 
