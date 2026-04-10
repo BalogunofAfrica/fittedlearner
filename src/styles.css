@@ -639,6 +639,17 @@ button:focus-visible {
   }
 }
 
+@keyframes menu-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @media (max-width: 900px) {
   .site-header {
     border-radius: 20px;
@@ -669,10 +680,6 @@ button:focus-visible {
     transform: translateY(-8px) scale(0.98);
     visibility: hidden;
     pointer-events: none;
-    transition:
-      opacity 180ms ease,
-      transform 220ms ease,
-      visibility 220ms ease;
   }
 
   .site-nav.is-open {
@@ -680,6 +687,7 @@ button:focus-visible {
     transform: translateY(0) scale(1);
     visibility: visible;
     pointer-events: auto;
+    animation: menu-reveal 190ms ease-out both;
   }
 
   .nav-link {
