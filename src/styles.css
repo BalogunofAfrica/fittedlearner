@@ -67,10 +67,8 @@ body::before {
 body::after {
   inset: 0;
   z-index: -1;
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0.02) 1px,
-      transparent 1px
-    ),
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 36px 36px;
   opacity: 0.32;
@@ -185,7 +183,9 @@ button:focus-visible {
   border-radius: 999px;
   font-size: 0.9rem;
   color: var(--text-secondary);
-  transition: background-color 180ms ease, color 180ms ease;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
 }
 
 .nav-link:hover {
@@ -398,7 +398,9 @@ button:focus-visible {
   text-decoration: underline;
   text-decoration-color: transparent;
   text-underline-offset: 0.16em;
-  transition: text-decoration-color 180ms ease, color 180ms ease;
+  transition:
+    text-decoration-color 180ms ease,
+    color 180ms ease;
 }
 
 .entry-title-link:hover {

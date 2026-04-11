@@ -29,13 +29,7 @@ interface PrimaryCollectionResult {
   folderToSlug: Map<string, string>;
 }
 
-const reservedMetadataFields = new Set([
-  'slug',
-  'title',
-  'summary',
-  'date',
-  'tags',
-]);
+const reservedMetadataFields = new Set(['slug', 'title', 'summary', 'date', 'tags']);
 
 const contentSourceMap: Record<ContentKind, Record<string, string>> = {
   articles: import.meta.glob('../content/articles/*.md', {
@@ -124,7 +118,11 @@ function buildCollections() {
   } satisfies Record<ContentKind, ContentEntry[]>;
 }
 
-function parseFlatEntry(kind: ContentKind, path: string, rawMarkdown: string): ContentEntry {
+function parseFlatEntry(
+  kind: ContentKind,
+  path: string,
+  rawMarkdown: string
+): ContentEntry {
   const parsed = parseFrontmatter(rawMarkdown);
   const filename = path.split('/').at(-1)?.replace(/\.md$/u, '') ?? '';
   const slug = parsed.metadata.slug ?? filename;

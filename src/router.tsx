@@ -5,11 +5,7 @@ import {
   createRouter,
   notFound,
 } from '@tanstack/react-router';
-import {
-  getPrimaryEntry,
-  getProjectNote,
-  getReadingListNote,
-} from './lib/content';
+import { getPrimaryEntry, getProjectNote, getReadingListNote } from './lib/content';
 import { RootLayout } from './views/root-layout';
 import {
   ArticleDetailPage,
@@ -26,11 +22,11 @@ import {
 const rootRoute = createRootRoute({
   component: RootLayout,
   notFoundComponent: () => (
-    <section className="detail-page">
-      <p className="eyebrow">404</p>
+    <section className='detail-page'>
+      <p className='eyebrow'>404</p>
       <h1>Page not found</h1>
       <p>That page does not exist, but we can get you back on track.</p>
-      <Link to="/" className="detail-back-link">
+      <Link to='/' className='detail-back-link'>
         Back home
       </Link>
     </section>

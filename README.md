@@ -80,6 +80,6 @@ Examples:
 
 - Header mark: plain `文` text in `src/views/root-layout.tsx`
 - Favicon/logo asset: `public/site-logo.svg`
-- Social preview image: `public/og-image.svg`
+- Social preview image: `public/og-image.png` (generated from `public/og-image.svg`)
 - Base meta tags are set in `index.html`
 - Route-level title/description tags are declared with `src/components/page-head.tsx`

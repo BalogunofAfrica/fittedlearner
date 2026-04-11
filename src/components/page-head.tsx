@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 const SITE_NAME = 'Fitted Learner';
-const DEFAULT_IMAGE_PATH = '/og-image.svg';
+const DEFAULT_IMAGE_PATH = '/og-image.png';
 
 interface PageHeadProps {
   title: string;
@@ -26,6 +26,9 @@ export function PageHead({
     upsertMeta({ property: 'og:description' }, description);
     upsertMeta({ property: 'og:type' }, type);
     upsertMeta({ property: 'og:image' }, imagePath);
+    upsertMeta({ property: 'og:image:type' }, 'image/png');
+    upsertMeta({ property: 'og:image:width' }, '1200');
+    upsertMeta({ property: 'og:image:height' }, '630');
     upsertMeta(
       { property: 'og:image:alt' },
       'Fitted Learner social image with Japanese logo mark 文'
@@ -40,10 +43,7 @@ export function PageHead({
   return null;
 }
 
-function upsertMeta(
-  selector: { name?: string; property?: string },
-  content: string
-) {
+function upsertMeta(selector: { name?: string; property?: string }, content: string) {
   const query = selector.name
     ? `meta[name="${selector.name}"]`
     : `meta[property="${selector.property}"]`;
