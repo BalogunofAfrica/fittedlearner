@@ -79,17 +79,13 @@ export function HomePage() {
 
   return (
     <div className='home-page'>
-      <PageHead
-        title='Fitted Learner'
-        description='A calm personal site for projects, articles, and a reading list with optional notes.'
-      />
+      <PageHead title='fitted learner' description='Learnings & Craft' />
 
       <section className='hero'>
-        <p className='eyebrow'>Personal Knowledge Base</p>
-        <h1>Field notes on building products, refining ideas, and reading deeply.</h1>
+        <p className='eyebrow'>Learnings & Crafts</p>
+        <h1>Building products, leading teams, and learning in public.</h1>
         <p className='hero-copy'>
-          A calm, markdown-first studio for documenting what I build, what I learn, and
-          what I keep returning to.
+          Notes from hands-on product craft and technical leadership.
         </p>
       </section>
 

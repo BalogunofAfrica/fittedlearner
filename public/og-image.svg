@@ -56,21 +56,12 @@
   </text>
   <text
     x="370"
-    y="328"
+    y="350"
     fill="#a9b8b4"
     font-family="'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif"
     font-size="34"
     font-weight="500"
   >
-    Projects · Articles · Reading List
-  </text>
-  <text
-    x="370"
-    y="388"
-    fill="#9cb0ab"
-    font-family="'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif"
-    font-size="30"
-  >
-    Calm field notes on building, learning, and writing.
+    Learnings &amp; Craft
   </text>
 </svg>

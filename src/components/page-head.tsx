@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 const SITE_NAME = 'Fitted Learner';
-const DEFAULT_IMAGE_PATH = '/og-image.png';
+const DEFAULT_IMAGE_PATH = '/og-image.png?v=2';
 
 interface PageHeadProps {
   title: string;
