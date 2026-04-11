@@ -349,7 +349,7 @@ function ItemDetailPage({ entry }: DetailPageProps) {
         <ReactMarkdown>{entry.body}</ReactMarkdown>
       </div>
 
-      {kind === 'projects' || kind === 'reading-list' ? (
+      {(kind === 'projects' || kind === 'reading-list') && notes.length ? (
         <section className="note-section">
           <h2>{kind === 'projects' ? 'Project Notes' : 'Reading Notes'}</h2>
           <NotesList

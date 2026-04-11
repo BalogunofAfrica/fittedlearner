@@ -20,9 +20,11 @@ npm run dev
 Create markdown files using this nested structure:
 
 - `src/content/articles/*.md`
-- `src/content/projects/<project-slug>/overview.md`
+- `src/content/projects/<project-slug>.md` (no notes)
+- `src/content/projects/<project-slug>/overview.md` (with notes)
 - `src/content/projects/<project-slug>/notes/*.md`
-- `src/content/reading-list/<item-slug>/overview.md`
+- `src/content/reading-list/<item-slug>.md` (no notes)
+- `src/content/reading-list/<item-slug>/overview.md` (with notes)
 - `src/content/reading-list/<item-slug>/notes/*.md`
 
 Example:
@@ -32,6 +34,12 @@ src/content/projects/refactoring-ui/
   overview.md
   notes/
     visual-rhythm.md
+```
+
+Flat-file example (no notes):
+
+```text
+src/content/reading-list/sicp.md
 ```
 
 Use this frontmatter format:
@@ -59,6 +67,7 @@ Examples:
 
 - `projects` and `reading-list` are parent items.
 - Notes live inside each parent folder under `notes/`.
+- Parent items can also be flat files when no notes are needed.
 - You can attach zero, one, or many notes to each parent item.
 
 ## Design notes

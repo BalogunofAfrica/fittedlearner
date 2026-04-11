@@ -43,16 +43,22 @@ const contentSourceMap: Record<ContentKind, Record<string, string>> = {
     import: 'default',
     query: '?raw',
   }) as Record<string, string>,
-  projects: import.meta.glob('../content/projects/*/overview.md', {
-    eager: true,
-    import: 'default',
-    query: '?raw',
-  }) as Record<string, string>,
-  'reading-list': import.meta.glob('../content/reading-list/*/overview.md', {
-    eager: true,
-    import: 'default',
-    query: '?raw',
-  }) as Record<string, string>,
+  projects: import.meta.glob(
+    ['../content/projects/*.md', '../content/projects/*/overview.md'],
+    {
+      eager: true,
+      import: 'default',
+      query: '?raw',
+    }
+  ) as Record<string, string>,
+  'reading-list': import.meta.glob(
+    ['../content/reading-list/*.md', '../content/reading-list/*/overview.md'],
+    {
+      eager: true,
+      import: 'default',
+      query: '?raw',
+    }
+  ) as Record<string, string>,
   'project-notes': import.meta.glob('../content/projects/*/notes/*.md', {
     eager: true,
     import: 'default',
@@ -81,12 +87,12 @@ function buildCollections() {
     )
   );
 
-  const projects = parseNestedPrimaryCollection(
+  const projects = parsePrimaryCollection(
     'projects',
     contentSourceMap.projects,
     'projects'
   );
-  const readingList = parseNestedPrimaryCollection(
+  const readingList = parsePrimaryCollection(
     'reading-list',
     contentSourceMap['reading-list'],
     'reading-list'
@@ -136,24 +142,26 @@ function parseFlatEntry(kind: ContentKind, path: string, rawMarkdown: string): C
   };
 }
 
-function parseNestedPrimaryCollection(
+function parsePrimaryCollection(
   kind: PrimaryContentKind,
   sourceMap: Record<string, string>,
   collectionFolder: 'projects' | 'reading-list'
 ): PrimaryCollectionResult {
+  const nestedEntries: ContentEntry[] = [];
+  const flatEntries: ContentEntry[] = [];
   const folderToSlug = new Map<string, string>();
-  const entries = Object.entries(sourceMap).map(([path, rawMarkdown]) => {
+
+  Object.entries(sourceMap).forEach(([path, rawMarkdown]) => {
     const parsed = parseFrontmatter(rawMarkdown);
-    const folderSlug = getCollectionFolderSlug(path, collectionFolder);
-    const filename = path.split('/').at(-1)?.replace(/\.md$/u, '') ?? '';
-    const defaultSlug = folderSlug ?? filename;
+    const pathInfo = parsePrimaryPathInfo(path, collectionFolder);
+    const defaultSlug = pathInfo.folderSlug ?? pathInfo.fileSlug;
     const slug = parsed.metadata.slug ?? defaultSlug;
 
-    if (folderSlug) {
-      folderToSlug.set(folderSlug, slug);
+    if (pathInfo.folderSlug) {
+      folderToSlug.set(pathInfo.folderSlug, slug);
     }
 
-    return {
+    const entry = {
       slug,
       kind,
       title: parsed.metadata.title ?? slugToTitle(slug),
@@ -163,10 +171,28 @@ function parseNestedPrimaryCollection(
       body: parsed.body,
       metadata: extractDisplayMetadata(parsed.metadata),
     } satisfies ContentEntry;
+
+    if (pathInfo.isNested) {
+      nestedEntries.push(entry);
+      return;
+    }
+
+    flatEntries.push(entry);
+  });
+
+  // Prefer nested entries when both flat and nested files define the same slug.
+  const deduped = new Map<string, ContentEntry>();
+  nestedEntries.forEach((entry) => {
+    deduped.set(entry.slug, entry);
+  });
+  flatEntries.forEach((entry) => {
+    if (!deduped.has(entry.slug)) {
+      deduped.set(entry.slug, entry);
+    }
   });
 
   return {
-    entries: sortByDateDescending(entries),
+    entries: sortByDateDescending([...deduped.values()]),
     folderToSlug,
   };
 }
@@ -221,6 +247,35 @@ function getCollectionFolderSlug(
   }
 
   return segments.at(collectionIndex + 1);
+}
+
+interface PrimaryPathInfo {
+  fileSlug: string;
+  folderSlug?: string;
+  isNested: boolean;
+}
+
+function parsePrimaryPathInfo(
+  path: string,
+  collectionFolder: 'projects' | 'reading-list'
+): PrimaryPathInfo {
+  const segments = path.split('/');
+  const collectionIndex = segments.indexOf(collectionFolder);
+  const collectionChild = segments.at(collectionIndex + 1) ?? '';
+  const nextSegment = segments.at(collectionIndex + 2) ?? '';
+
+  if (nextSegment === 'overview.md') {
+    return {
+      fileSlug: collectionChild,
+      folderSlug: collectionChild,
+      isNested: true,
+    };
+  }
+
+  return {
+    fileSlug: collectionChild.replace(/\.md$/u, ''),
+    isNested: false,
+  };
 }
 
 function sortByDateDescending(entries: ContentEntry[]) {
