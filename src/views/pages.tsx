@@ -82,7 +82,7 @@ export function HomePage() {
       <PageHead title='fitted learner' description='Learnings & Craft' />
 
       <section className='hero'>
-        <p className='eyebrow'>Learnings & Crafts</p>
+        <p className='eyebrow'>Learnings & Craft</p>
         <h1>Building products, leading teams, and learning in public.</h1>
         <p className='hero-copy'>
           Notes from hands-on product craft and technical leadership.
