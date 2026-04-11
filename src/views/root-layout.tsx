@@ -19,7 +19,7 @@ export function RootLayout() {
   const mobileMenuLabel = isMobileMenuOpen
     ? 'Close navigation menu'
     : 'Open navigation menu';
-  const mobileMenuGlyph = isMobileMenuOpen ? '閉' : 'メ';
+  const mobileMenuGlyph = isMobileMenuOpen ? '止' : 'メ';
 
   useEffect(() => {
     if (!isMobileMenuOpen) {
