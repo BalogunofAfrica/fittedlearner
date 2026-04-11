@@ -156,8 +156,9 @@ button:focus-visible {
   place-items: center;
   border-radius: 999px;
   background: var(--accent-soft);
-  font-family: 'Noto Serif JP', serif;
+  font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', serif;
   font-size: 1rem;
+  font-weight: 700;
 }
 
 .site-brand-text {

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Fitted Learner social preview image">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#111b1f" />
+      <stop offset="60%" stop-color="#15292f" />
+      <stop offset="100%" stop-color="#1d3430" />
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.15" cy="0.2" r="0.8">
+      <stop offset="0%" stop-color="#6fa9a0" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#6fa9a0" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.9" cy="0.15" r="0.6">
+      <stop offset="0%" stop-color="#b39462" stop-opacity="0.24" />
+      <stop offset="100%" stop-color="#b39462" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="logoFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5f9790" />
+      <stop offset="100%" stop-color="#2f5753" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect width="1200" height="630" fill="url(#glowA)" />
+  <rect width="1200" height="630" fill="url(#glowB)" />
+
+  <g opacity="0.15">
+    <path d="M80 80h1040v470H80z" fill="none" stroke="#b5d1cc" stroke-width="2" />
+    <path d="M80 210h1040M80 340h1040M80 470h1040" fill="none" stroke="#b5d1cc" stroke-width="1" />
+    <path d="M320 80v470M560 80v470M800 80v470" fill="none" stroke="#b5d1cc" stroke-width="1" />
+  </g>
+
+  <g transform="translate(140 165)">
+    <circle cx="88" cy="88" r="88" fill="url(#logoFill)" />
+    <text
+      x="88"
+      y="95"
+      text-anchor="middle"
+      fill="#f3f6f4"
+      font-family="'Noto Serif JP', 'Hiragino Mincho ProN', serif"
+      font-size="92"
+      font-weight="700"
+    >
+      文
+    </text>
+  </g>
+
+  <text
+    x="370"
+    y="255"
+    fill="#eff4f2"
+    font-family="'Noto Serif JP', 'Hiragino Mincho ProN', serif"
+    font-size="86"
+    font-weight="700"
+  >
+    fitted learner
+  </text>
+  <text
+    x="370"
+    y="328"
+    fill="#a9b8b4"
+    font-family="'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif"
+    font-size="34"
+    font-weight="500"
+  >
+    Projects · Articles · Reading List
+  </text>
+  <text
+    x="370"
+    y="388"
+    fill="#9cb0ab"
+    font-family="'Zen Kaku Gothic New', 'Hiragino Kaku Gothic ProN', sans-serif"
+    font-size="30"
+  >
+    Calm field notes on building, learning, and writing.
+  </text>
+</svg>

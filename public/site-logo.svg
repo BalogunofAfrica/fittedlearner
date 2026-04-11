@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Fitted Learner logo">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3a6863" />
+      <stop offset="100%" stop-color="#20373d" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0f1a1d" />
+  <circle cx="256" cy="256" r="186" fill="url(#bg)" />
+  <text
+    x="50%"
+    y="53%"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    fill="#f1f4f2"
+    font-family="'Noto Serif JP', 'Hiragino Mincho ProN', serif"
+    font-size="208"
+    font-weight="700"
+  >
+    文
+  </text>
+</svg>

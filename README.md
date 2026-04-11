@@ -75,3 +75,11 @@ Examples:
 - Typography uses Japanese-influenced pairings: `Noto Serif JP` + `Zen Kaku Gothic New`
 - Calm light and dark modes are both included
 - Theme preference is stored in localStorage
+
+## Branding and SEO
+
+- Header mark: plain `文` text in `src/views/root-layout.tsx`
+- Favicon/logo asset: `public/site-logo.svg`
+- Social preview image: `public/og-image.svg`
+- Base meta tags are set in `index.html`
+- Route-level title/description tags are declared with `src/components/page-head.tsx`

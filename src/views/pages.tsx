@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import ReactMarkdown from 'react-markdown';
+import { PageHead } from '../components/page-head';
 import { formatDate } from '../lib/date';
 import {
   ContentEntry,
@@ -77,24 +78,28 @@ export function HomePage() {
   const readingList = getPrimaryCollection('reading-list').slice(0, 3);
 
   return (
-    <div className="home-page">
-      <section className="hero">
-        <p className="eyebrow">Personal Blog</p>
-        <h1>Calm corner for projects, ideas, and reading reflections.</h1>
-        <p className="hero-copy">
-          A minimalist writing space inspired by Japanese editorial aesthetics. Add
-          markdown items for projects or reading list entries, then optionally attach
-          as many notes as you like.
+    <div className='home-page'>
+      <PageHead
+        title='Fitted Learner'
+        description='A calm personal site for projects, articles, and a reading list with optional notes.'
+      />
+
+      <section className='hero'>
+        <p className='eyebrow'>Personal Knowledge Base</p>
+        <h1>Field notes on building products, refining ideas, and reading deeply.</h1>
+        <p className='hero-copy'>
+          A calm, markdown-first studio for documenting what I build, what I learn, and
+          what I keep returning to.
         </p>
       </section>
 
-      <section className="home-section">
-        <div className="section-head">
-          <h2>Latest updates</h2>
+      <section className='home-section'>
+        <div className='section-head'>
+          <h2>Recent Work and Writing</h2>
         </div>
-        <ul className="entry-grid">
+        <ul className='entry-grid'>
           {latestEntries.map((entry) => (
-            <li key={`${entry.kind}-${entry.slug}`} className="entry-grid-item">
+            <li key={`${entry.kind}-${entry.slug}`} className='entry-grid-item'>
               <EntryCard entry={entry} />
             </li>
           ))}
@@ -102,19 +107,19 @@ export function HomePage() {
       </section>
 
       <HomeCollectionPreview
-        kind="projects"
+        kind='projects'
         entries={projects}
-        ctaLabel="View all projects"
+        ctaLabel='Browse projects'
       />
       <HomeCollectionPreview
-        kind="articles"
+        kind='articles'
         entries={articles}
-        ctaLabel="View all articles"
+        ctaLabel='Browse articles'
       />
       <HomeCollectionPreview
-        kind="reading-list"
+        kind='reading-list'
         entries={readingList}
-        ctaLabel="View full reading list"
+        ctaLabel='Browse reading list'
       />
     </div>
   );
@@ -122,20 +127,20 @@ export function HomePage() {
 
 function HomeCollectionPreview({ kind, entries, ctaLabel }: HomeCollectionPreviewProps) {
   return (
-    <section className="home-section">
-      <div className="section-head">
+    <section className='home-section'>
+      <div className='section-head'>
         <div>
-          <p className="eyebrow">{sectionTitleByKind[kind]}</p>
+          <p className='eyebrow'>{sectionTitleByKind[kind]}</p>
           <h2>{sectionTaglineByKind[kind]}</h2>
         </div>
-        <Link to={collectionRouteByKind[kind]} className="inline-link">
+        <Link to={collectionRouteByKind[kind]} className='inline-link'>
           {ctaLabel}
         </Link>
       </div>
 
-      <ul className="entry-grid">
+      <ul className='entry-grid'>
         {entries.map((entry) => (
-          <li key={`${entry.kind}-${entry.slug}`} className="entry-grid-item">
+          <li key={`${entry.kind}-${entry.slug}`} className='entry-grid-item'>
             <EntryCard entry={entry} />
           </li>
         ))}
@@ -148,24 +153,25 @@ function EntryCard({ entry }: { entry: ContentEntry }) {
   const kind = entry.kind as PrimaryContentKind;
 
   return (
-    <article className="entry-card">
-      <p className="entry-meta">
-        {sectionTitleByKind[kind]} · <time dateTime={entry.date}>{formatDate(entry.date)}</time>
+    <article className='entry-card'>
+      <p className='entry-meta'>
+        {sectionTitleByKind[kind]} ·{' '}
+        <time dateTime={entry.date}>{formatDate(entry.date)}</time>
       </p>
       <h3>
         <Link
           to={primaryDetailRouteByKind[kind]}
           params={{ slug: entry.slug }}
-          className="entry-title-link"
+          className='entry-title-link'
           aria-label={`Read ${singularTitleByKind[kind]}: ${entry.title}`}
         >
           {entry.title}
         </Link>
       </h3>
       <p>{entry.summary}</p>
-      <div className="entry-tags">
+      <div className='entry-tags'>
         {entry.tags.map((tag) => (
-          <span key={tag} className="entry-tag">
+          <span key={tag} className='entry-tag'>
             {tag}
           </span>
         ))}
@@ -178,12 +184,17 @@ function CollectionPage({ kind }: { kind: PrimaryContentKind }) {
   const entries = getPrimaryCollection(kind);
 
   return (
-    <section className="collection-page">
-      <p className="eyebrow">{sectionTitleByKind[kind]}</p>
+    <section className='collection-page'>
+      <PageHead
+        title={sectionTitleByKind[kind]}
+        description={sectionTaglineByKind[kind]}
+      />
+
+      <p className='eyebrow'>{sectionTitleByKind[kind]}</p>
       <h1>{sectionTaglineByKind[kind]}</h1>
-      <ul className="entry-grid">
+      <ul className='entry-grid'>
         {entries.map((entry) => (
-          <li key={`${entry.kind}-${entry.slug}`} className="entry-grid-item">
+          <li key={`${entry.kind}-${entry.slug}`} className='entry-grid-item'>
             <EntryCard entry={entry} />
           </li>
         ))}
@@ -195,37 +206,37 @@ function CollectionPage({ kind }: { kind: PrimaryContentKind }) {
 function NotesList({ notes, parent, parentKind }: NoteListProps) {
   if (!notes.length) {
     return (
-      <p className="note-empty">
+      <p className='note-empty'>
         No notes yet. Add a markdown file in the notes folder to attach one.
       </p>
     );
   }
 
   return (
-    <ul className="note-list">
+    <ul className='note-list'>
       {notes.map((note) => (
-        <li key={note.slug} className="note-item">
+        <li key={note.slug} className='note-item'>
           {parentKind === 'projects' ? (
             <Link
-              to="/projects/$slug/notes/$noteSlug"
+              to='/projects/$slug/notes/$noteSlug'
               params={{ slug: parent.slug, noteSlug: note.slug }}
-              className="note-link"
+              className='note-link'
               aria-label={`Open project note: ${note.title}`}
             >
               {note.title}
             </Link>
           ) : (
             <Link
-              to="/reading-list/$slug/notes/$noteSlug"
+              to='/reading-list/$slug/notes/$noteSlug'
               params={{ slug: parent.slug, noteSlug: note.slug }}
-              className="note-link"
+              className='note-link'
               aria-label={`Open reading note: ${note.title}`}
             >
               {note.title}
             </Link>
           )}
           <p>{note.summary}</p>
-          <p className="note-date">
+          <p className='note-date'>
             <time dateTime={note.date}>{formatDate(note.date)}</time>
           </p>
         </li>
@@ -236,23 +247,23 @@ function NotesList({ notes, parent, parentKind }: NoteListProps) {
 
 function ProjectArticlesList({ articles }: { articles: ContentEntry[] }) {
   if (!articles.length) {
-    return <p className="note-empty">No linked articles yet.</p>;
+    return <p className='note-empty'>No linked articles yet.</p>;
   }
 
   return (
-    <ul className="note-list">
+    <ul className='note-list'>
       {articles.map((article) => (
-        <li key={article.slug} className="note-item">
+        <li key={article.slug} className='note-item'>
           <Link
-            to="/articles/$slug"
+            to='/articles/$slug'
             params={{ slug: article.slug }}
-            className="note-link"
+            className='note-link'
             aria-label={`Open article: ${article.title}`}
           >
             {article.title}
           </Link>
           <p>{article.summary}</p>
-          <p className="note-date">
+          <p className='note-date'>
             <time dateTime={article.date}>{formatDate(article.date)}</time>
           </p>
         </li>
@@ -275,36 +286,41 @@ function ItemDetailPage({ entry }: DetailPageProps) {
       : kind === 'reading-list'
         ? getReadingListNotes(entry.slug)
         : [];
-  const projectArticles =
-    kind === 'projects' ? getProjectArticles(entry.slug) : [];
+  const projectArticles = kind === 'projects' ? getProjectArticles(entry.slug) : [];
 
   const secondaryLinks = primaryLink
     ? relatedLinks.filter((link) => link.href !== primaryLink.href)
     : relatedLinks;
 
   return (
-    <article className="detail-page">
-      <p className="eyebrow">{sectionTitleByKind[kind]}</p>
+    <article className='detail-page'>
+      <PageHead
+        title={entry.title}
+        description={entry.summary}
+        type={kind === 'articles' ? 'article' : 'website'}
+      />
+
+      <p className='eyebrow'>{sectionTitleByKind[kind]}</p>
       <h1>{entry.title}</h1>
-      <p className="detail-meta">
+      <p className='detail-meta'>
         <time dateTime={entry.date}>{formatDate(entry.date)}</time>
       </p>
 
-      <div className="detail-supporting">
-        <div className="entry-tags">
+      <div className='detail-supporting'>
+        <div className='entry-tags'>
           {entry.tags.map((tag) => (
-            <span key={tag} className="entry-tag">
+            <span key={tag} className='entry-tag'>
               {tag}
             </span>
           ))}
         </div>
 
         {entry.metadata.status ? (
-          <p className="status-pill">Status: {entry.metadata.status}</p>
+          <p className='status-pill'>Status: {entry.metadata.status}</p>
         ) : null}
 
         {displayMetadata.length ? (
-          <dl className="metadata-grid">
+          <dl className='metadata-grid'>
             {displayMetadata.map(([key, value]) => (
               <div key={key}>
                 <dt>{readableMetadataKey(key)}</dt>
@@ -317,25 +333,27 @@ function ItemDetailPage({ entry }: DetailPageProps) {
         {primaryLink ? (
           <a
             href={primaryLink.href}
-            target="_blank"
-            rel="noreferrer"
-            className="detail-primary-link"
+            target='_blank'
+            rel='noreferrer'
+            className='detail-primary-link'
             aria-label={`${primaryLink.label} (opens in a new tab)`}
           >
             {primaryLink.label}
           </a>
         ) : kind === 'projects' ? (
-          <p className="note-empty">Add a `url`, `demo`, or `repo` link to this project.</p>
+          <p className='note-empty'>
+            Add a `url`, `demo`, or `repo` link to this project.
+          </p>
         ) : null}
 
         {secondaryLinks.length ? (
-          <div className="detail-links">
+          <div className='detail-links'>
             {secondaryLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                target="_blank"
-                rel="noreferrer"
+                target='_blank'
+                rel='noreferrer'
                 aria-label={`${link.label} (opens in a new tab)`}
               >
                 {link.label}
@@ -345,13 +363,13 @@ function ItemDetailPage({ entry }: DetailPageProps) {
         ) : null}
       </div>
 
-      <div className="markdown-body">
+      <div className='markdown-body'>
         <ReactMarkdown>{entry.body}</ReactMarkdown>
       </div>
 
       {(kind === 'projects' || kind === 'reading-list') && notes.length ? (
-        <section className="note-section">
-          <h2>{kind === 'projects' ? 'Project Notes' : 'Reading Notes'}</h2>
+        <section className='note-section'>
+          <h2>{kind === 'projects' ? 'Build Notes' : 'Reading Annotations'}</h2>
           <NotesList
             notes={notes}
             parent={entry}
@@ -361,13 +379,13 @@ function ItemDetailPage({ entry }: DetailPageProps) {
       ) : null}
 
       {kind === 'projects' ? (
-        <section className="note-section">
-          <h2>Related Articles</h2>
+        <section className='note-section'>
+          <h2>Linked Articles</h2>
           <ProjectArticlesList articles={projectArticles} />
         </section>
       ) : null}
 
-      <Link to={collectionRouteByKind[kind]} className="detail-back-link">
+      <Link to={collectionRouteByKind[kind]} className='detail-back-link'>
         Back to {sectionTitleByKind[kind]}
       </Link>
     </article>
@@ -382,39 +400,51 @@ function NoteDetailPage({ parent, note }: NoteDetailPageProps) {
   );
 
   return (
-    <article className="detail-page">
-      <p className="eyebrow">
-        {sectionTitleByKind[parentKind]} · Note
-      </p>
+    <article className='detail-page'>
+      <PageHead
+        title={`${note.title} — ${parent.title}`}
+        description={note.summary}
+        type='article'
+      />
+
+      <p className='eyebrow'>{sectionTitleByKind[parentKind]} · Note</p>
       <h1>{note.title}</h1>
-      <p className="detail-meta">
+      <p className='detail-meta'>
         <time dateTime={note.date}>{formatDate(note.date)}</time>
       </p>
 
-      <p className="note-parent-line">
+      <p className='note-parent-line'>
         Attached to:{' '}
         {parentKind === 'projects' ? (
-          <Link to="/projects/$slug" params={{ slug: parent.slug }} className="inline-link">
+          <Link
+            to='/projects/$slug'
+            params={{ slug: parent.slug }}
+            className='inline-link'
+          >
             {parent.title}
           </Link>
         ) : (
-          <Link to="/reading-list/$slug" params={{ slug: parent.slug }} className="inline-link">
+          <Link
+            to='/reading-list/$slug'
+            params={{ slug: parent.slug }}
+            className='inline-link'
+          >
             {parent.title}
           </Link>
         )}
       </p>
 
-      <div className="detail-supporting">
-        <div className="entry-tags">
+      <div className='detail-supporting'>
+        <div className='entry-tags'>
           {note.tags.map((tag) => (
-            <span key={tag} className="entry-tag">
+            <span key={tag} className='entry-tag'>
               {tag}
             </span>
           ))}
         </div>
 
         {displayMetadata.length ? (
-          <dl className="metadata-grid">
+          <dl className='metadata-grid'>
             {displayMetadata.map(([key, value]) => (
               <div key={key}>
                 <dt>{readableMetadataKey(key)}</dt>
@@ -425,13 +455,13 @@ function NoteDetailPage({ parent, note }: NoteDetailPageProps) {
         ) : null}
 
         {relatedLinks.length ? (
-          <div className="detail-links">
+          <div className='detail-links'>
             {relatedLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                target="_blank"
-                rel="noreferrer"
+                target='_blank'
+                rel='noreferrer'
                 aria-label={`${link.label} (opens in a new tab)`}
               >
                 {link.label}
@@ -441,16 +471,24 @@ function NoteDetailPage({ parent, note }: NoteDetailPageProps) {
         ) : null}
       </div>
 
-      <div className="markdown-body">
+      <div className='markdown-body'>
         <ReactMarkdown>{note.body}</ReactMarkdown>
       </div>
 
       {parentKind === 'projects' ? (
-        <Link to="/projects/$slug" params={{ slug: parent.slug }} className="detail-back-link">
+        <Link
+          to='/projects/$slug'
+          params={{ slug: parent.slug }}
+          className='detail-back-link'
+        >
           Back to {parent.title}
         </Link>
       ) : (
-        <Link to="/reading-list/$slug" params={{ slug: parent.slug }} className="detail-back-link">
+        <Link
+          to='/reading-list/$slug'
+          params={{ slug: parent.slug }}
+          className='detail-back-link'
+        >
           Back to {parent.title}
         </Link>
       )}
@@ -514,15 +552,15 @@ function readableMetadataKey(key: string) {
 }
 
 export function ArticlesPage() {
-  return <CollectionPage kind="articles" />;
+  return <CollectionPage kind='articles' />;
 }
 
 export function ProjectsPage() {
-  return <CollectionPage kind="projects" />;
+  return <CollectionPage kind='projects' />;
 }
 
 export function ReadingListPage() {
-  return <CollectionPage kind="reading-list" />;
+  return <CollectionPage kind='reading-list' />;
 }
 
 export function ArticleDetailPage({ entry }: DetailPageProps) {

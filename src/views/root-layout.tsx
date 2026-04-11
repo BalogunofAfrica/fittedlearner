@@ -58,7 +58,7 @@ export function RootLayout() {
 
       <header className="site-header">
         <Link to="/" className="site-brand" aria-label="Go to homepage">
-          <span className="site-brand-mark">文</span>
+          <span className="site-brand-mark" aria-hidden="true">文</span>
           <span className="site-brand-text">fitted learner</span>
         </Link>
 
