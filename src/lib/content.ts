@@ -24,6 +24,11 @@ interface ParsedFrontmatter {
   body: string;
 }
 
+interface PrimaryCollectionResult {
+  entries: ContentEntry[];
+  folderToSlug: Map<string, string>;
+}
+
 const reservedMetadataFields = new Set([
   'slug',
   'title',
@@ -38,22 +43,22 @@ const contentSourceMap: Record<ContentKind, Record<string, string>> = {
     import: 'default',
     query: '?raw',
   }) as Record<string, string>,
-  projects: import.meta.glob('../content/projects/*.md', {
+  projects: import.meta.glob('../content/projects/*/overview.md', {
     eager: true,
     import: 'default',
     query: '?raw',
   }) as Record<string, string>,
-  'reading-list': import.meta.glob('../content/reading-list/*.md', {
+  'reading-list': import.meta.glob('../content/reading-list/*/overview.md', {
     eager: true,
     import: 'default',
     query: '?raw',
   }) as Record<string, string>,
-  'project-notes': import.meta.glob('../content/project-notes/*.md', {
+  'project-notes': import.meta.glob('../content/projects/*/notes/*.md', {
     eager: true,
     import: 'default',
     query: '?raw',
   }) as Record<string, string>,
-  'reading-list-notes': import.meta.glob('../content/reading-list-notes/*.md', {
+  'reading-list-notes': import.meta.glob('../content/reading-list/*/notes/*.md', {
     eager: true,
     import: 'default',
     query: '?raw',
@@ -70,39 +75,54 @@ const noteParentFieldByKind: Partial<Record<ContentKind, 'project' | 'item'>> = 
 const cachedCollections = buildCollections();
 
 function buildCollections() {
-  const collections = {} as Record<ContentKind, ContentEntry[]>;
-  (Object.keys(contentSourceMap) as ContentKind[]).forEach((kind) => {
-    const entries = Object.entries(contentSourceMap[kind]).map(
-      ([path, rawMarkdown]) => parseEntry(kind, path, rawMarkdown)
-    );
+  const articles = sortByDateDescending(
+    Object.entries(contentSourceMap.articles).map(([path, rawMarkdown]) =>
+      parseFlatEntry('articles', path, rawMarkdown)
+    )
+  );
 
-    entries.sort((entryA, entryB) => {
-      const timestampA = new Date(entryA.date).getTime();
-      const timestampB = new Date(entryB.date).getTime();
-      return timestampB - timestampA;
-    });
+  const projects = parseNestedPrimaryCollection(
+    'projects',
+    contentSourceMap.projects,
+    'projects'
+  );
+  const readingList = parseNestedPrimaryCollection(
+    'reading-list',
+    contentSourceMap['reading-list'],
+    'reading-list'
+  );
 
-    collections[kind] = entries;
-  });
+  const projectNotes = sortByDateDescending(
+    parseNestedNotesCollection(
+      'project-notes',
+      contentSourceMap['project-notes'],
+      'projects',
+      projects.folderToSlug
+    )
+  );
+  const readingListNotes = sortByDateDescending(
+    parseNestedNotesCollection(
+      'reading-list-notes',
+      contentSourceMap['reading-list-notes'],
+      'reading-list',
+      readingList.folderToSlug
+    )
+  );
 
-  return collections;
+  return {
+    articles,
+    projects: projects.entries,
+    'reading-list': readingList.entries,
+    'project-notes': projectNotes,
+    'reading-list-notes': readingListNotes,
+  } satisfies Record<ContentKind, ContentEntry[]>;
 }
 
-function parseEntry(kind: ContentKind, path: string, rawMarkdown: string): ContentEntry {
+function parseFlatEntry(kind: ContentKind, path: string, rawMarkdown: string): ContentEntry {
   const parsed = parseFrontmatter(rawMarkdown);
   const filename = path.split('/').at(-1)?.replace(/\.md$/u, '') ?? '';
   const slug = parsed.metadata.slug ?? filename;
-
-  const metadata = Object.fromEntries(
-    Object.entries(parsed.metadata).filter(
-      ([key]) => !reservedMetadataFields.has(key)
-    )
-  );
-  const parentField = noteParentFieldByKind[kind];
-  const parentSlug = parentField ? parsed.metadata[parentField] : undefined;
-  if (parentField) {
-    delete metadata[parentField];
-  }
+  const metadata = extractDisplayMetadata(parsed.metadata);
 
   return {
     slug,
@@ -113,8 +133,108 @@ function parseEntry(kind: ContentKind, path: string, rawMarkdown: string): Conte
     tags: parseTags(parsed.metadata.tags),
     body: parsed.body,
     metadata,
-    parentSlug,
   };
+}
+
+function parseNestedPrimaryCollection(
+  kind: PrimaryContentKind,
+  sourceMap: Record<string, string>,
+  collectionFolder: 'projects' | 'reading-list'
+): PrimaryCollectionResult {
+  const folderToSlug = new Map<string, string>();
+  const entries = Object.entries(sourceMap).map(([path, rawMarkdown]) => {
+    const parsed = parseFrontmatter(rawMarkdown);
+    const folderSlug = getCollectionFolderSlug(path, collectionFolder);
+    const filename = path.split('/').at(-1)?.replace(/\.md$/u, '') ?? '';
+    const defaultSlug = folderSlug ?? filename;
+    const slug = parsed.metadata.slug ?? defaultSlug;
+
+    if (folderSlug) {
+      folderToSlug.set(folderSlug, slug);
+    }
+
+    return {
+      slug,
+      kind,
+      title: parsed.metadata.title ?? slugToTitle(slug),
+      summary: parsed.metadata.summary ?? createFallbackSummary(parsed.body),
+      date: parsed.metadata.date ?? '1970-01-01',
+      tags: parseTags(parsed.metadata.tags),
+      body: parsed.body,
+      metadata: extractDisplayMetadata(parsed.metadata),
+    } satisfies ContentEntry;
+  });
+
+  return {
+    entries: sortByDateDescending(entries),
+    folderToSlug,
+  };
+}
+
+function parseNestedNotesCollection(
+  kind: 'project-notes' | 'reading-list-notes',
+  sourceMap: Record<string, string>,
+  parentCollectionFolder: 'projects' | 'reading-list',
+  folderToParentSlug: Map<string, string>
+) {
+  return Object.entries(sourceMap).map(([path, rawMarkdown]) => {
+    const parsed = parseFrontmatter(rawMarkdown);
+    const filename = path.split('/').at(-1)?.replace(/\.md$/u, '') ?? '';
+    const slug = parsed.metadata.slug ?? filename;
+    const folderSlug = getCollectionFolderSlug(path, parentCollectionFolder);
+    const fallbackParentField = noteParentFieldByKind[kind];
+    const fallbackParentSlug = fallbackParentField
+      ? parsed.metadata[fallbackParentField]
+      : undefined;
+    const parentSlug =
+      (folderSlug ? folderToParentSlug.get(folderSlug) : undefined) ??
+      fallbackParentSlug ??
+      folderSlug;
+
+    const metadata = extractDisplayMetadata(parsed.metadata);
+    if (fallbackParentField) {
+      delete metadata[fallbackParentField];
+    }
+
+    return {
+      slug,
+      kind,
+      title: parsed.metadata.title ?? slugToTitle(slug),
+      summary: parsed.metadata.summary ?? createFallbackSummary(parsed.body),
+      date: parsed.metadata.date ?? '1970-01-01',
+      tags: parseTags(parsed.metadata.tags),
+      body: parsed.body,
+      metadata,
+      parentSlug,
+    } satisfies ContentEntry;
+  });
+}
+
+function getCollectionFolderSlug(
+  path: string,
+  collectionFolder: 'projects' | 'reading-list'
+) {
+  const segments = path.split('/');
+  const collectionIndex = segments.indexOf(collectionFolder);
+  if (collectionIndex < 0) {
+    return undefined;
+  }
+
+  return segments.at(collectionIndex + 1);
+}
+
+function sortByDateDescending(entries: ContentEntry[]) {
+  return [...entries].sort((entryA, entryB) => {
+    const timestampA = new Date(entryA.date).getTime();
+    const timestampB = new Date(entryB.date).getTime();
+    return timestampB - timestampA;
+  });
+}
+
+function extractDisplayMetadata(metadata: Record<string, string>) {
+  return Object.fromEntries(
+    Object.entries(metadata).filter(([key]) => !reservedMetadataFields.has(key))
+  );
 }
 
 function parseFrontmatter(markdown: string): ParsedFrontmatter {

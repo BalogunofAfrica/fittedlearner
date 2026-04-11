@@ -3,7 +3,6 @@ title: Visual Rhythm Checklist
 summary: A compact checklist for spacing and hierarchy decisions.
 date: 2026-03-12
 tags: design, systems
-item: refactoring-ui
 ---
 
 My quick UI checklist from this reference:

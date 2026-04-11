@@ -3,7 +3,6 @@ title: Content Model v2
 summary: Splitting list items from child notes for better scaling.
 date: 2026-04-10
 tags: architecture, content-model
-project: fittedlearner-blog-engine
 ---
 
 This revision separates parent items (projects and reading list entries) from child
